@@ -3,6 +3,10 @@ import { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import emailjs from '@emailjs/browser';
 import { toast } from "sonner";
+import { sanitizeInput, sanitizeEmail, validateMessage } from "../utils/security";
+import { checkRateLimit } from "../utils/rateLimiting";
+import { config } from "../utils/config";
+import { createSecurityError, logSecurityEvent, getSafeErrorMessage } from "../utils/errorHandling";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -13,6 +17,17 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Rate limiting check
+    const rateLimitCheck = checkRateLimit();
+    if (!rateLimitCheck.allowed) {
+      const error = createSecurityError('RATE_LIMIT', 'Rate limit exceeded');
+      logSecurityEvent(error);
+      toast.error("Too Many Requests", {
+        description: `Please wait ${rateLimitCheck.resetIn} minutes before submitting again`
+      });
+      return;
+    }
+
     if (!captchaValue) {
       toast.error("Verification Required", {
         description: "Please complete the captcha verification"
@@ -27,14 +42,53 @@ const Contact = () => {
       return;
     }
 
+    // Enhanced input validation and sanitization
+    const formData = new FormData(formRef.current);
+    const name = sanitizeInput(formData.get('user_name') as string || '');
+    const email = sanitizeEmail(formData.get('user_email') as string || '');
+    const message = formData.get('message') as string || '';
+
+    // Validate message content
+    const messageValidation = validateMessage(message);
+    if (!messageValidation.isValid) {
+      const error = createSecurityError('VALIDATION', messageValidation.error || 'Invalid input');
+      logSecurityEvent(error);
+      toast.error("Validation Error", {
+        description: messageValidation.error
+      });
+      return;
+    }
+
+    // Validate name and email
+    if (name.length < 2 || name.length > 50) {
+      toast.error("Validation Error", {
+        description: "Name must be between 2 and 50 characters"
+      });
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      toast.error("Validation Error", {
+        description: "Please enter a valid email address"
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
+      // Create sanitized form data
+      const sanitizedFormData = new FormData();
+      sanitizedFormData.append('user_name', name);
+      sanitizedFormData.append('user_email', email);
+      sanitizedFormData.append('message', sanitizeInput(message));
+
       const response = await emailjs.sendForm(
-        'service_upmue6g', // Replace with your EmailJS service ID
-        'template_ssjw2rx', // Replace with your EmailJS template ID
+        config.emailjs.serviceId,
+        config.emailjs.templateId,
         formRef.current,
-        'Lb6xJjZn1vHkJrjle' // Replace with your EmailJS public key
+        config.emailjs.publicKey
       );
 
       if (response.status !== 200) {
@@ -53,8 +107,11 @@ const Contact = () => {
       }
       setCaptchaValue(null);
     } catch (error) {
+      const securityError = createSecurityError('NETWORK', 'Email sending failed');
+      logSecurityEvent(securityError);
+      
       toast.error("Error", {
-        description: error instanceof Error ? error.message : "Failed to send message. Please try again later."
+        description: getSafeErrorMessage(error)
       });
     } finally {
       setIsSubmitting(false);
@@ -123,6 +180,7 @@ const Contact = () => {
                   name="user_name"
                   type="text"
                   required
+                  maxLength={50}
                   className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
                   placeholder="Your name"
                 />
@@ -134,6 +192,7 @@ const Contact = () => {
                   name="user_email"
                   type="email"
                   required
+                  maxLength={100}
                   className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
                   placeholder="Your email"
                 />
@@ -144,15 +203,17 @@ const Contact = () => {
                 <textarea
                   name="message"
                   required
+                  maxLength={1000}
+                  minLength={10}
                   className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary h-32"
-                  placeholder="Your message"
+                  placeholder="Your message (minimum 10 characters)"
                 ></textarea>
               </div>
 
               <div className="flex justify-center">
                 <ReCAPTCHA
                   ref={recaptchaRef}
-                  sitekey="6LcNy_YqAAAAAAg2_QQqh0o7qSaSazRnXuXWEF8A" // Replace with your reCAPTCHA site key
+                  sitekey={config.recaptcha.siteKey}
                   onChange={(value) => setCaptchaValue(value)}
                 />
               </div>
