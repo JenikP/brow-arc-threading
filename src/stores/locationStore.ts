@@ -11,7 +11,7 @@ interface LocationStore {
 }
 
 export const useLocationStore = create<LocationStore>((set) => ({
-  selectedLocation: null,
+  selectedLocation: "location1", // Default to Brandon Park Shopping Centre
   isLoading: false,
   error: null,
   setSelectedLocation: (location) => {

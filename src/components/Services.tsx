@@ -12,15 +12,8 @@ import LoadingSpinner from "./ui/loading-spinner";
 const ServiceCategory = lazy(() => import('./services/ServiceCategory'));
 
 const Services = () => {
-  const [showLocationDialog, setShowLocationDialog] = useState(true);
   const { selectedLocation, setSelectedLocation, isLoading, error } = useLocationStore();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (selectedLocation) {
-      setShowLocationDialog(false);
-    }
-  }, [selectedLocation]);
 
   useEffect(() => {
     if (error) {
@@ -36,7 +29,6 @@ const Services = () => {
         throw new Error("Please select a valid location");
       }
       setSelectedLocation(location);
-      setShowLocationDialog(false);
     } catch (error) {
       toast.error("Selection Error", {
         description: error instanceof Error ? error.message : "Failed to select location"
@@ -52,45 +44,6 @@ const Services = () => {
     navigate('/locations');
   };
 
-  // If no location is selected, only show the dialog
-  if (!selectedLocation) {
-    return (
-      <Dialog open={true} onOpenChange={() => {}}>
-        <DialogContent 
-          className="bg-gradient-to-b from-pearl to-white max-w-[95%] sm:max-w-[450px] p-4 sm:p-8 shadow-xl rounded-xl border border-primary/20" 
-          onPointerDownOutside={(e) => e.preventDefault()}
-        >
-          <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-bold text-secondary text-center mb-4 sm:mb-6">
-              Select Your Preferred Location
-            </DialogTitle>
-          </DialogHeader>
-          <div className="py-4 sm:py-6 space-y-3 sm:space-y-4">
-            <div className="grid grid-cols-1 gap-3 sm:gap-4">
-              {Object.entries(locationNames).map(([key, name]) => (
-                <button
-                  key={key}
-                  onClick={() => handleLocationSelect(key)}
-                  className="flex items-center justify-between p-3 sm:p-4 rounded-lg border-2 border-primary/20 bg-white hover:bg-primary/5 hover:border-primary hover:shadow-md transition-all duration-300"
-                >
-                  <span className="text-base sm:text-lg font-medium text-secondary">{name}</span>
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  </div>
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={handleViewLocations}
-              className="mt-6 sm:mt-8 text-primary hover:text-primary-dark hover:underline w-full text-center font-medium text-base sm:text-lg py-3 border-t border-primary/10 pt-4"
-            >
-              View All Locations
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
 
   return (
     <section id="services" className="py-16 sm:py-20 bg-white">

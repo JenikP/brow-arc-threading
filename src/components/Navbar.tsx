@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, Phone, MapPin } from "lucide-react";
+import { Menu, X, Phone, MapPin, AlertCircle } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLocationStore } from "../stores/locationStore";
 import {
@@ -96,6 +96,7 @@ const Navbar = () => {
                 ) : (
                   <>
                     <MapPin size={18} />
+                    <AlertCircle size={14} className="text-orange-500" />
                     <span>{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Select Location"}</span>
                   </>
                 )}
@@ -127,8 +128,9 @@ const Navbar = () => {
           {/* Mobile menu */}
           <div className="md:hidden flex items-center space-x-4">
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-2 text-charcoal hover:text-secondary transition-colors">
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-charcoal hover:text-secondary transition-colors">
                 <MapPin size={18} />
+                <AlertCircle size={12} className="text-orange-500" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {Object.entries(locationNames).map(([key, name]) => (
