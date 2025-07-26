@@ -1,5 +1,5 @@
 
-import { Phone } from "lucide-react";
+import { Phone, Search } from "lucide-react";
 import { useEffect, useState, lazy, Suspense } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useLocationStore } from "../stores/locationStore";
 import { toast } from "sonner";
 import { services, locationNames } from "../data/servicesData";
 import LoadingSpinner from "./ui/loading-spinner";
+import { Input } from "./ui/input";
 
 // Lazy load the ServiceCategory component
 const ServiceCategory = lazy(() => import('./services/ServiceCategory'));
@@ -14,6 +15,7 @@ const ServiceCategory = lazy(() => import('./services/ServiceCategory'));
 const Services = () => {
   const { selectedLocation, setSelectedLocation, isLoading, error } = useLocationStore();
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (error) {
@@ -44,6 +46,25 @@ const Services = () => {
     navigate('/locations');
   };
 
+  // Filter services based on search query
+  const filterServices = () => {
+    if (!searchQuery.trim()) return services;
+    
+    const filtered: any = {};
+    Object.entries(services).forEach(([category, items]) => {
+      const filteredItems = items.filter((item: any) => 
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      if (filteredItems.length > 0) {
+        filtered[category] = filteredItems;
+      }
+    });
+    return filtered;
+  };
+
+  const filteredServices = filterServices();
+
 
   return (
     <section id="services" className="py-16 sm:py-20 bg-white">
@@ -57,21 +78,42 @@ const Services = () => {
             tailored to enhance your natural beauty.
           </p>
           {selectedLocation && (
-            <p className="mt-2 text-primary text-sm sm:text-base">
+            <p className="mt-2 text-secondary font-semibold text-sm sm:text-base">
               Showing prices for: {locationNames[selectedLocation as keyof typeof locationNames]}
             </p>
           )}
+          
+          {/* Search functionality */}
+          <div className="mt-6 max-w-md mx-auto">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-warmGray" size={20} />
+              <Input
+                type="text"
+                placeholder="Search for services..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 h-12 border-2 border-primary/20 focus:border-primary focus:ring-primary"
+              />
+            </div>
+          </div>
         </div>
 
         <Suspense fallback={<div className="py-12 flex justify-center"><LoadingSpinner /></div>}>
-          {Object.entries(services).map(([category, items]) => (
-            <ServiceCategory 
-              key={category} 
-              category={category} 
-              items={items} 
-              selectedLocation={selectedLocation}
-            />
-          ))}
+          {searchQuery.trim() && Object.keys(filteredServices).length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-warmGray text-lg">No services found matching "{searchQuery}"</p>
+              <p className="text-warmGray text-sm mt-2">Try searching with different keywords</p>
+            </div>
+          ) : (
+            Object.entries(filteredServices).map(([category, items]) => (
+              <ServiceCategory 
+                key={category} 
+                category={category} 
+                items={items as any} 
+                selectedLocation={selectedLocation}
+              />
+            ))
+          )}
         </Suspense>
 
         <div className="text-center mt-10 sm:mt-12">

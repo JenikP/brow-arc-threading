@@ -88,24 +88,24 @@ const Navbar = () => {
 
             <DropdownMenu>
               <DropdownMenuTrigger 
-                className="flex items-center space-x-2 px-3 py-1.5 rounded-md bg-white border-2 border-primary/20 hover:border-primary text-charcoal hover:text-secondary transition-colors"
+                className="flex items-center space-x-2 px-3 py-2 rounded-md bg-white border-2 border-primary/20 hover:border-primary text-charcoal hover:text-secondary transition-colors h-10 sm:h-11"
                 disabled={isLoading}
               >
                 {isLoading ? (
                   <LoadingSpinner />
                 ) : (
                   <>
-                    <MapPin size={18} />
-                    <AlertCircle size={14} className="text-orange-500" />
-                    <span>{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Select Location"}</span>
+                    <MapPin size={20} className="sm:w-5 sm:h-5" />
+                    <AlertCircle size={18} className="sm:w-4 sm:h-4 text-yellow-500" />
+                    <span className="text-sm sm:text-base">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Select Location"}</span>
                   </>
                 )}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border-2 border-primary/20">
+              <DropdownMenuContent className="bg-white border-2 border-primary/20 shadow-[0_8px_30px_rgb(247,202,201,0.4)] backdrop-blur-sm z-50">
                 {Object.entries(locationNames).map(([key, name]) => (
                   <DropdownMenuItem
                     key={key}
-                    className={`cursor-pointer hover:bg-primary/10 ${
+                    className={`cursor-pointer hover:bg-primary/20 py-3 sm:py-2 text-base sm:text-sm ${
                       selectedLocation === key ? 'bg-primary/10 font-medium text-secondary' : ''
                     }`}
                     onClick={() => setSelectedLocation(key)}
@@ -128,15 +128,16 @@ const Navbar = () => {
           {/* Mobile menu */}
           <div className="md:hidden flex items-center space-x-4">
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-1 text-charcoal hover:text-secondary transition-colors">
-                <MapPin size={18} />
-                <AlertCircle size={12} className="text-orange-500" />
+              <DropdownMenuTrigger className="flex items-center space-x-2 px-3 py-3 bg-white/90 border-2 border-primary/20 hover:border-primary rounded-md text-charcoal hover:text-secondary transition-colors backdrop-blur-sm">
+                <MapPin size={22} />
+                <AlertCircle size={20} className="text-yellow-500" />
+                <span className="text-base font-medium">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Location"}</span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="bg-white border-2 border-primary/20 shadow-[0_8px_30px_rgb(247,202,201,0.4)] backdrop-blur-sm z-50 w-48">
                 {Object.entries(locationNames).map(([key, name]) => (
                   <DropdownMenuItem
                     key={key}
-                    className={`cursor-pointer hover:bg-primary/10 ${selectedLocation === key ? 'bg-primary/10' : ''}`}
+                    className={`cursor-pointer hover:bg-primary/20 py-4 text-base ${selectedLocation === key ? 'bg-primary/10 font-medium text-secondary' : ''}`}
                     onClick={() => setSelectedLocation(key)}
                   >
                     {name}
