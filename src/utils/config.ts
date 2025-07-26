@@ -15,11 +15,11 @@ export const config = {
 export const securityHeaders = {
   'Content-Security-Policy': [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com",
+    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com",
+    "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://api.emailjs.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https:",
-    "connect-src 'self' https://api.emailjs.com",
     "frame-src https://www.google.com"
   ].join('; '),
   'X-Frame-Options': 'DENY',

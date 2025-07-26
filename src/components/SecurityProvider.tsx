@@ -8,7 +8,16 @@ interface SecurityProviderProps {
 
 const SecurityProvider = ({ children }: SecurityProviderProps) => {
   useEffect(() => {
-    // Apply meta security tags
+    // Apply CSP header for Google Analytics support
+    const existingCSP = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+    if (!existingCSP) {
+      const cspMeta = document.createElement('meta');
+      cspMeta.setAttribute('http-equiv', 'Content-Security-Policy');
+      cspMeta.setAttribute('content', securityHeaders['Content-Security-Policy']);
+      document.head.appendChild(cspMeta);
+    }
+
+    // Apply other security meta tags
     const metaTags = [
       { name: 'referrer', content: 'strict-origin-when-cross-origin' },
       { httpEquiv: 'X-Content-Type-Options', content: 'nosniff' },
@@ -30,7 +39,7 @@ const SecurityProvider = ({ children }: SecurityProviderProps) => {
     });
 
     // Log security initialization
-    console.log('Security provider initialized');
+    console.log('Security provider initialized with Google Analytics support');
   }, []);
 
   return <>{children}</>;
