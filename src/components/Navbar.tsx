@@ -40,8 +40,8 @@ const Navbar = () => {
 
   return (
     <nav className="fixed w-full bg-white shadow-sm z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
             <Link to="/" className="text-2xl font-semibold text-secondary hover:text-primary transition-colors">
               Brow Arc Threading
@@ -96,8 +96,8 @@ const Navbar = () => {
                 ) : (
                   <>
                     <MapPin size={20} className="sm:w-5 sm:h-5" />
-                    <AlertCircle size={18} className="sm:w-4 sm:h-4 text-yellow-500" />
-                    <span className="text-sm sm:text-base">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Select Location"}</span>
+                    <AlertCircle size={22} className="sm:w-6 sm:h-6 text-yellow-500" />
+                    <span className="text-sm sm:text-base font-bold">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Select Location"}</span>
                   </>
                 )}
               </DropdownMenuTrigger>
@@ -126,18 +126,18 @@ const Navbar = () => {
           </div>
 
           {/* Mobile menu */}
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="md:hidden flex items-center space-x-2">
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-2 px-3 py-3 bg-white/90 border-2 border-primary/20 hover:border-primary rounded-md text-charcoal hover:text-secondary transition-colors backdrop-blur-sm">
-                <MapPin size={22} />
-                <AlertCircle size={20} className="text-yellow-500" />
-                <span className="text-base font-medium">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Location"}</span>
+              <DropdownMenuTrigger className="flex items-center space-x-1 px-2 py-2 bg-white/90 border-2 border-primary/20 hover:border-primary rounded-md text-charcoal hover:text-secondary transition-colors backdrop-blur-sm text-xs max-w-[140px]">
+                <MapPin size={16} />
+                <AlertCircle size={18} className="text-yellow-500" />
+                <span className="font-bold truncate">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames].split(' ')[0] : "Location"}</span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border-2 border-primary/20 shadow-[0_8px_30px_rgb(247,202,201,0.4)] backdrop-blur-sm z-50 w-48">
+              <DropdownMenuContent className="bg-white border-2 border-primary/20 shadow-[0_8px_30px_rgb(247,202,201,0.4)] backdrop-blur-sm z-50 w-44">
                 {Object.entries(locationNames).map(([key, name]) => (
                   <DropdownMenuItem
                     key={key}
-                    className={`cursor-pointer hover:bg-primary/20 py-4 text-base ${selectedLocation === key ? 'bg-primary/10 font-medium text-secondary' : ''}`}
+                    className={`cursor-pointer hover:bg-primary/20 py-3 text-sm font-bold ${selectedLocation === key ? 'bg-primary/10 font-bold text-secondary' : ''}`}
                     onClick={() => setSelectedLocation(key)}
                   >
                     {name}

@@ -28,7 +28,7 @@ const Index = () => {
   const renderLoader = () => <div className="flex justify-center py-12"><LoadingSpinner /></div>;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full overflow-x-hidden">
       <Navbar />
       <Hero />
       <Suspense fallback={renderLoader()}>
