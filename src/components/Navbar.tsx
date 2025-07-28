@@ -41,13 +41,13 @@ const Navbar = () => {
   return (
     <nav className="fixed w-full bg-white shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+        <div className="flex justify-between h-20 sm:h-24 md:h-28 lg:h-32 items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img 
                 src="/lovable-uploads/c3344f81-1e98-4f81-9573-1d658bc58c98.png" 
                 alt="Brow Arc Threading Logo" 
-                className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto"
+                className="h-16 sm:h-18 md:h-22 lg:h-26 xl:h-30 w-auto"
               />
             </Link>
           </div>
