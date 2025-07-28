@@ -45,10 +45,11 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img 
-                src="/lovable-uploads/c3344f81-1e98-4f81-9573-1d658bc58c98.png" 
-                alt="Brow Arc Threading Logo" 
-                className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto"
-              />
+  src="/lovable-uploads/c3344f81-1e98-4f81-9573-1d658bc58c98.png" 
+  alt="Brow Arc Threading Logo" 
+  className="h-20 md:h-24 lg:h-28 xl:h-32 w-auto max-h-[80px] sm:max-h-[96px] md:max-h-[112px] lg:max-h-[128px]"
+/>
+
             </Link>
           </div>
           
