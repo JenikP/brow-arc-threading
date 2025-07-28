@@ -27,11 +27,9 @@ const Hero = () => {
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-3xl animate-fade-in">
-          <img 
-            src="/lovable-uploads/f44bbec0-014c-4b23-b3ea-21325735cff3.png" 
-            alt="Brow Arc Threading - The Eyebrow Threader" 
-            className="w-full max-w-2xl h-auto mb-4 sm:mb-6"
-          />
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-secondary mb-4 sm:mb-6">
+            Transform Your Look with Expert Threading
+          </h1>
           <p className="text-base sm:text-lg md:text-xl text-warmGray mb-6 sm:mb-8">
             Where precision meets beauty. Experience the art of perfect brows with our expert threading services.
           </p>
