@@ -43,7 +43,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="flex justify-between h-16 md:h-20 lg:h-24 items-center">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center p-1 sm:p-2 md:p-3">
               <img 
   src="/lovable-uploads/c3344f81-1e98-4f81-9573-1d658bc58c98.png" 
   alt="Brow Arc Threading Logo" 
