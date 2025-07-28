@@ -41,7 +41,7 @@ const Navbar = () => {
   return (
     <nav className="fixed w-full bg-white shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+        <div className="flex justify-between h-16 md:h-20 lg:h-24 items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img 
@@ -53,38 +53,38 @@ const Navbar = () => {
           </div>
           
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center md:space-x-4 lg:space-x-8">
             <button 
               onClick={() => handleNavigation('services')} 
-              className="text-charcoal hover:text-secondary transition-colors relative group"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
             >
               Services
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handleNavigation('about')} 
-              className="text-charcoal hover:text-secondary transition-colors relative group"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
             >
               About
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handleNavigation('testimonials')} 
-              className="text-charcoal hover:text-secondary transition-colors relative group"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
             >
               Testimonials
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
             </button>
             <Link 
               to="/locations" 
-              className="text-charcoal hover:text-secondary transition-colors relative group"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
             >
               Locations
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <button 
               onClick={() => handleNavigation('contact')} 
-              className="text-charcoal hover:text-secondary transition-colors relative group"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
             >
               Contact
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
@@ -92,7 +92,7 @@ const Navbar = () => {
 
             <DropdownMenu>
               <DropdownMenuTrigger 
-                className="flex items-center space-x-2 px-3 py-2 rounded-md bg-white border-2 border-primary/20 hover:border-primary text-charcoal hover:text-secondary transition-colors h-10 sm:h-11"
+                className="flex items-center space-x-2 md:px-2 lg:px-3 md:py-1 lg:py-2 rounded-md bg-white border-2 border-primary/20 hover:border-primary text-charcoal hover:text-secondary transition-colors md:h-8 lg:h-10 xl:h-11"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -101,7 +101,7 @@ const Navbar = () => {
                   <>
                     <MapPin size={20} className="sm:w-5 sm:h-5" />
                     <AlertCircle size={22} className="sm:w-6 sm:h-6 text-yellow-500" />
-                    <span className="text-sm sm:text-base font-bold">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Select Location"}</span>
+                    <span className="md:text-xs lg:text-sm xl:text-base font-bold">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Select Location"}</span>
                   </>
                 )}
               </DropdownMenuTrigger>
@@ -122,9 +122,9 @@ const Navbar = () => {
 
             <button 
               onClick={handleCall}
-              className="bg-primary hover:bg-primary-dark text-secondary px-6 py-2 rounded-full transition-colors flex items-center gap-2 hover:scale-105 transform duration-200"
+              className="bg-primary hover:bg-primary-dark text-secondary md:px-3 lg:px-6 md:py-1 lg:py-2 rounded-full transition-colors flex items-center md:gap-1 lg:gap-2 hover:scale-105 transform duration-200 md:text-sm lg:text-base"
             >
-              <Phone size={18} />
+              <Phone size={16} className="md:w-4 md:h-4 lg:w-5 lg:h-5" />
               Book Now
             </button>
           </div>
