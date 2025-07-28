@@ -43,8 +43,17 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-semibold text-secondary hover:text-primary transition-colors">
-              Brow Arc Threading
+            <Link to="/" className="flex items-center">
+              {/* Mobile logo - image */}
+              <img 
+                src="/lovable-uploads/e6c80b9e-265b-4ec9-82ed-7a334fece184.png" 
+                alt="Brow Arc Threading Logo" 
+                className="h-8 w-auto md:hidden"
+              />
+              {/* Desktop logo - text */}
+              <span className="hidden md:block text-2xl font-semibold text-secondary hover:text-primary transition-colors">
+                Brow Arc Threading
+              </span>
             </Link>
           </div>
           
