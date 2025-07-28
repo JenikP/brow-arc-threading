@@ -47,7 +47,7 @@ const Navbar = () => {
               <img 
                 src="/lovable-uploads/c3344f81-1e98-4f81-9573-1d658bc58c98.png" 
                 alt="Brow Arc Threading Logo" 
-                className="h-12 sm:h-16 w-auto"
+                className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto"
               />
             </Link>
           </div>
