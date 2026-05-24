@@ -3,6 +3,7 @@ import { useEffect, lazy, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import SEO from "../components/SEO";
 import LoadingSpinner from "../components/ui/loading-spinner";
 
 // Lazy load components that aren't immediately visible
@@ -29,6 +30,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
+      <SEO
+        title="Brow Arc Threading — Eyebrow Threading & Beauty Services"
+        description="Brow Arc Threading offers expert eyebrow threading, tinting, lamination and lash extensions across 5 convenient Melbourne locations."
+        canonical="/"
+      />
       <Navbar />
       <Hero />
       <Suspense fallback={renderLoader()}>
