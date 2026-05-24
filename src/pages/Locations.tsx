@@ -3,6 +3,21 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import Navbar from "../components/Navbar";
 import LoadingSpinner from "../components/ui/loading-spinner";
+import SEO from "../components/SEO";
+import { locations as allLocations } from "../data/locationData";
+
+const locationsJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": allLocations.map((l) => ({
+    "@type": "LocalBusiness",
+    "name": `Brow Arc Threading — ${l.name}`,
+    "image": `https://brow-arc-threading.lovable.app${l.image}`,
+    "telephone": l.phone,
+    "address": { "@type": "PostalAddress", "streetAddress": l.address, "addressLocality": "Melbourne", "addressRegion": "VIC", "addressCountry": "AU" },
+    "geo": { "@type": "GeoCoordinates", "latitude": l.coordinates.lat, "longitude": l.coordinates.lng },
+    "url": "https://brow-arc-threading.lovable.app/locations"
+  }))
+};
 
 // Lazy-loaded components
 const LocationMap = lazy(() => import("../components/locations/LocationMap"));
@@ -38,6 +53,12 @@ const Locations = () => {
 
   return (
     <div className="min-h-screen bg-pearl w-full overflow-x-hidden">
+      <SEO
+        title="Our 5 Melbourne Locations | Brow Arc Threading"
+        description="Find Brow Arc Threading at Brandon Park, Southland, Pakenham, Stud Park and Heidelberg. Addresses, hours and maps for all 5 Melbourne studios."
+        canonical="/locations"
+        jsonLd={locationsJsonLd}
+      />
       <Navbar />
       <div className="container mx-auto px-2 sm:px-4 py-8 sm:py-12 pt-20 sm:pt-24">
         <div className="text-center mb-8 sm:mb-12">
