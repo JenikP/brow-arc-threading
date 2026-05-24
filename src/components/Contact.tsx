@@ -159,12 +159,15 @@ const Contact = () => {
               <div className="flex items-start space-x-4">
                 <Clock className="w-6 h-6 text-primary-dark mt-1" />
                 <div>
-                  <h3 className="font-semibold text-secondary">Hours Are Different Depending on Location</h3>
-                  <p className="text-warmGray">
-                    Monday - Wednesday: 9:00 AM - 5:30 PM<br />
-                    Thursday - Friday: 9:00 AM - 7:00 PM<br />
-                    Saturday: 9:00 AM – 5:00 AM<br />
-                    Sunday: 9:00 AM - 5:00 PM
+                  <h3 className="font-semibold text-secondary">Opening Hours</h3>
+                  <p className="text-warmGray text-sm">
+                    Hours may vary by location — please call to confirm.
+                  </p>
+                  <p className="text-warmGray mt-2">
+                    Mon – Wed: 9:00 AM – 5:30 PM<br />
+                    Thu – Fri: 9:00 AM – 7:00 PM<br />
+                    Saturday: 9:00 AM – 5:00 PM<br />
+                    Sunday: 9:00 AM – 5:00 PM
                   </p>
                 </div>
               </div>

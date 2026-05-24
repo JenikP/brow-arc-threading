@@ -28,26 +28,30 @@ const Hero = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-3xl animate-fade-in">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-secondary mb-4 sm:mb-6">
-            Transform Your Look with Expert Threading
+            Expert Eyebrow Threading, Close to Home
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-warmGray mb-6 sm:mb-8">
-            Where precision meets beauty. Experience the art of perfect brows with our expert threading services.
+            Perfect brows in minutes. 5 friendly salons across Melbourne — walk-ins welcome, no appointment needed.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <button 
               onClick={handleCall}
-              className="bg-secondary hover:bg-secondary-light text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-base sm:text-lg transition-colors flex items-center justify-center gap-2"
+              className="bg-secondary hover:bg-secondary-light text-white px-6 sm:px-8 py-3 sm:py-3 rounded-full text-base sm:text-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+              aria-label="Call now to book an appointment"
             >
-              <Phone size={18} />
-              Book Appointment
+              <Phone size={20} />
+              Call Now to Book
             </button>
             <a 
               href="#services"
-              className="border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-base sm:text-lg transition-colors text-center"
+              className="border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-6 sm:px-8 py-3 sm:py-3 rounded-full text-base sm:text-lg transition-colors text-center font-medium"
             >
-              View Services
+              See Services & Prices
             </a>
           </div>
+          <p className="mt-4 text-sm text-warmGray">
+            📞 <a href="tel:+61415469594" className="font-semibold text-secondary hover:underline">+61 415 469 594</a> · Open 7 days
+          </p>
         </div>
       </div>
     </div>

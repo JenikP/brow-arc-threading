@@ -71,15 +71,18 @@ const Services = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary mb-3 sm:mb-4">
-            Our Services
+            Our Services & Prices
           </h2>
           <p className="text-warmGray text-sm sm:text-base max-w-2xl mx-auto">
-            Experience our comprehensive range of professional beauty services, 
-            tailored to enhance your natural beauty.
+            Browse our treatments below. Pick your salon at the top of the page to see exact prices for that location.
           </p>
-          {selectedLocation && (
-            <p className="mt-2 text-secondary font-semibold text-sm sm:text-base">
-              Showing prices for: {locationNames[selectedLocation as keyof typeof locationNames]}
+          {selectedLocation ? (
+            <p className="mt-3 inline-block bg-primary/10 text-secondary font-semibold text-sm sm:text-base px-4 py-2 rounded-full">
+              ✓ Showing prices for: {locationNames[selectedLocation as keyof typeof locationNames]}
+            </p>
+          ) : (
+            <p className="mt-3 inline-block bg-yellow-50 border border-yellow-200 text-yellow-800 font-medium text-sm px-4 py-2 rounded-full">
+              👆 Tip: Choose your salon at the top to see prices
             </p>
           )}
           
@@ -89,7 +92,7 @@ const Services = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-warmGray" size={20} />
               <Input
                 type="text"
-                placeholder="Search for services..."
+                placeholder="Search a service (e.g. eyebrow, facial, wax)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 h-12 border-2 border-primary/20 focus:border-primary focus:ring-primary"
