@@ -1,0 +1,10 @@
+# Brow Arc Threading
+
+> Expert eyebrow threading, tinting, lamination, waxing and lash extension services across 5 locations in Melbourne, Australia.
+
+Brow Arc Threading is a beauty salon brand specializing in precision threading and brow shaping, operating studios in Brandon Park, Southland, Pakenham, Stud Park, and Heidelberg.
+
+## Pages
+
+- [Home](/): Overview of services, testimonials, and contact info.
+- [Locations](/locations): All five Melbourne studio locations with addresses and maps.

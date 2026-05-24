@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://brow-arc-threading.lovable.app/sitemap.xml
