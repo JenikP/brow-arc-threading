@@ -95,6 +95,7 @@ const Navbar = () => {
               <DropdownMenuTrigger 
                 className="flex items-center space-x-2 md:px-2 lg:px-3 md:py-1 lg:py-2 rounded-md bg-white border-2 border-primary/20 hover:border-primary text-charcoal hover:text-secondary transition-colors md:h-8 lg:h-10 xl:h-11"
                 disabled={isLoading}
+                aria-label="Choose your salon location"
               >
                 {isLoading ? (
                   <LoadingSpinner />
@@ -102,7 +103,7 @@ const Navbar = () => {
                   <>
                     <MapPin size={20} className="sm:w-5 sm:h-5" />
                     <AlertCircle size={22} className="sm:w-6 sm:h-6 text-yellow-500" />
-                    <span className="md:text-xs lg:text-sm xl:text-base font-bold">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Select Location"}</span>
+                    <span className="md:text-xs lg:text-sm xl:text-base font-bold">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames] : "Choose Your Salon"}</span>
                   </>
                 )}
               </DropdownMenuTrigger>
@@ -133,10 +134,10 @@ const Navbar = () => {
           {/* Mobile menu */}
           <div className="md:hidden flex items-center space-x-2">
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-1 px-2 py-2 bg-white/90 border-2 border-primary/20 hover:border-primary rounded-md text-charcoal hover:text-secondary transition-colors backdrop-blur-sm text-xs max-w-[140px]">
+              <DropdownMenuTrigger className="flex items-center space-x-1 px-2 py-2 bg-white/90 border-2 border-primary/20 hover:border-primary rounded-md text-charcoal hover:text-secondary transition-colors backdrop-blur-sm text-xs max-w-[140px]" aria-label="Choose your salon location">
                 <MapPin size={16} />
                 <AlertCircle size={18} className="text-yellow-500" />
-                <span className="font-bold truncate">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames].split(' ')[0] : "Location"}</span>
+                <span className="font-bold truncate">{selectedLocation ? locationNames[selectedLocation as keyof typeof locationNames].split(' ')[0] : "Choose Salon"}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-white border-2 border-primary/20 shadow-[0_8px_30px_rgb(247,202,201,0.4)] backdrop-blur-sm z-50 w-44">
                 {Object.entries(locationNames).map(([key, name]) => (
