@@ -122,13 +122,14 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <button 
-              onClick={handleCall}
-              className="bg-primary hover:bg-primary-dark text-secondary md:px-3 lg:px-6 md:py-1 lg:py-2 rounded-full transition-colors flex items-center md:gap-1 lg:gap-2 hover:scale-105 transform duration-200 md:text-sm lg:text-base"
+            <a
+              href="tel:+61415469594"
+              className="bg-secondary hover:bg-bronze text-pearl md:px-4 lg:px-6 md:py-2 lg:py-2.5 rounded-full transition-colors flex items-center md:gap-1.5 lg:gap-2 md:text-sm lg:text-base font-semibold shadow-soft hover:shadow-card"
+              aria-label="Call to book"
             >
               <Phone size={16} className="md:w-4 md:h-4 lg:w-5 lg:h-5" />
-              Book Now
-            </button>
+              Call to Book
+            </a>
           </div>
 
           {/* Mobile menu */}
@@ -192,13 +193,13 @@ const Navbar = () => {
               >
                 Contact
               </button>
-              <button 
-                onClick={handleCall}
-                className="w-full mt-4 bg-primary hover:bg-primary-dark text-secondary px-6 py-2 rounded-full flex items-center justify-center gap-2 hover:scale-105 transform duration-200"
+              <a
+                href="tel:+61415469594"
+                className="w-full mt-4 bg-secondary hover:bg-bronze text-pearl px-6 py-3 rounded-full flex items-center justify-center gap-2 font-semibold"
               >
                 <Phone size={18} />
-                Book Now
-              </button>
+                Call to Book
+              </a>
             </div>
           </div>
         )}
