@@ -1,7 +1,5 @@
-
-import { Phone, MapPin, Check } from "lucide-react";
+import { Phone, MapPin, Clock, ExternalLink, Check } from "lucide-react";
 import { useLocationStore } from "../../stores/locationStore";
-import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { LocationData } from "../../types/location";
 
@@ -14,113 +12,102 @@ interface LocationCardProps {
 const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
   const { setSelectedLocation } = useLocationStore();
 
-  const handleDirectionsClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    try {
-      window.open(
-        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-          `${location.name} ${location.address}`
-        )}`,
-        "_blank"
-      );
-    } catch (error) {
-      toast.error("Navigation Error", {
-        description: "Failed to open directions. Please try again."
-      });
-    }
-  };
-
-  const handleCallClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    try {
-      window.location.href = `tel:${location.phone}`;
-    } catch (error) {
-      toast.error("Call Error", {
-        description: "Failed to initiate call. Please try again."
-      });
-    }
-  };
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${location.name} ${location.address}`
+  )}`;
 
   const handleSelectLocation = (e: React.MouseEvent) => {
     e.stopPropagation();
-    try {
-      setSelectedLocation(location.storeId);
-      toast.success("Location Selected", {
-        description: `You've selected ${location.name} as your preferred location.`
-      });
-    } catch (error) {
-      toast.error("Selection Error", {
-        description: "Failed to select location. Please try again."
-      });
-    }
+    setSelectedLocation(location.storeId);
+    toast.success("Location Selected", {
+      description: `You've selected ${location.name} as your preferred salon.`,
+    });
   };
 
   return (
-    <div
-      className={`bg-white rounded-lg shadow-md overflow-hidden transition-all cursor-pointer relative
-        ${isSelected ? "ring-2 ring-primary scale-[1.02]" : "hover:scale-[1.01]"}`}
+    <article
+      className={`bg-white rounded-3xl overflow-hidden border transition-all duration-300 cursor-pointer
+        ${isSelected ? "border-bronze shadow-lux ring-2 ring-bronze/20" : "border-sand shadow-soft hover:shadow-card hover:border-primary/40"}`}
       onClick={onClick}
     >
-      {isSelected && (
-        <div className="absolute top-4 right-4 bg-primary text-secondary p-2 rounded-full z-10">
-          <Check size={20} />
-        </div>
-      )}
-      
-      <div className="h-48 w-full">
-        <img 
-          src={location.image} 
-          alt={location.name} 
+      <div className="relative h-48 sm:h-52 w-full">
+        <img
+          src={location.image}
+          alt={`${location.name} salon`}
           className="w-full h-full object-cover"
           loading="lazy"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-secondary/40 to-transparent" />
+        <div className="absolute bottom-4 left-5">
+          <p className="kicker text-pearl/80 mb-1">Melbourne</p>
+          <h3 className="font-serif text-2xl sm:text-3xl text-pearl">{location.name}</h3>
+        </div>
+        {isSelected && (
+          <div className="absolute top-4 right-4 bg-bronze text-pearl w-9 h-9 rounded-full flex items-center justify-center shadow-card">
+            <Check size={18} />
+          </div>
+        )}
       </div>
-      
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h3 className="text-xl font-semibold text-secondary mb-2">{location.name}</h3>
-            <p
-              className="text-warmGray hover:text-secondary underline cursor-pointer"
-              onClick={handleDirectionsClick}
-            >
-              {location.address}
+
+      <div className="p-6 sm:p-7">
+        <a
+          href={mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-start gap-3 mb-4 group"
+        >
+          <MapPin size={18} className="text-bronze mt-0.5 flex-shrink-0" />
+          <div className="text-secondary group-hover:text-bronze transition-colors">
+            <p className="text-sm sm:text-base leading-snug">{location.address}</p>
+            <p className="inline-flex items-center gap-1 text-xs text-bronze mt-1 font-medium">
+              Open in Google Maps <ExternalLink size={11} />
             </p>
           </div>
-          <button
-            onClick={handleCallClick}
-            className="bg-primary hover:bg-primary-dark text-secondary px-4 py-2 rounded-full flex items-center gap-2 transition-colors"
-          >
-            <Phone size={18} />
-            <span className="hidden sm:inline">Call Now</span>
-          </button>
-        </div>
+        </a>
 
         {location.description && (
-          <p className="text-warmGray mb-4">{location.description}</p>
+          <p className="text-warmGray text-sm mb-4 leading-relaxed">{location.description}</p>
         )}
 
-        <div className="mt-4">
-          <h4 className="font-semibold text-secondary mb-2">Opening Hours:</h4>
-          <div className="grid grid-cols-1 gap-1">
+        <div className="border-t border-sand pt-4 mb-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Clock size={15} className="text-bronze" />
+            <p className="kicker text-bronze">Opening Hours</p>
+          </div>
+          <div className="space-y-1.5">
             {Object.entries(location.hours).map(([day, hours]) => (
-              <div key={day} className="flex justify-between text-sm">
+              <div key={day} className="flex justify-between text-sm gap-3">
                 <span className="text-warmGray">{day}</span>
-                <span className="text-charcoal">{hours}</span>
+                <span className="text-secondary font-medium text-right">{hours}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <Button 
-          onClick={handleSelectLocation}
-          className={`w-full mt-4 ${isSelected ? 'bg-primary text-secondary hover:bg-primary-dark' : ''}`}
-          variant={isSelected ? "default" : "outline"}
-        >
-          {isSelected ? 'Selected Location' : 'Select This Location'}
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-2.5">
+          <a
+            href={`tel:${location.phone}`}
+            onClick={(e) => e.stopPropagation()}
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-secondary hover:bg-bronze text-pearl px-5 py-3 rounded-full text-sm font-semibold transition-colors"
+            aria-label={`Call ${location.name}`}
+          >
+            <Phone size={16} />
+            Call {location.phone.replace('+61', '0')}
+          </a>
+          <button
+            onClick={handleSelectLocation}
+            className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-medium transition-colors border ${
+              isSelected
+                ? 'bg-bronze text-pearl border-bronze'
+                : 'border-secondary/30 text-secondary hover:bg-secondary hover:text-pearl'
+            }`}
+          >
+            {isSelected ? 'Selected' : 'Set as my salon'}
+          </button>
+        </div>
       </div>
-    </div>
+    </article>
   );
 };
 
