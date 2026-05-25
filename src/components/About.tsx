@@ -1,45 +1,47 @@
-
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-pearl">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-            <div className="aspect-square rounded-lg overflow-hidden">
+    <section id="about" className="py-20 lg:py-28 bg-white">
+      <div className="container mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="relative order-2 lg:order-1">
+            <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-card">
               <img
                 src="/lovable-uploads/4a6d259e-2c69-4327-9302-2fd3265a87cc.png"
-                alt="Threading expert at work"
+                alt="Threading expert at work shaping eyebrows"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
             </div>
-            <div className="absolute -bottom-6 -right-6 bg-primary p-6 rounded-lg">
-              <p className="text-secondary font-bold text-xl">10+ Years</p>
-              <p className="text-secondary-light">of Experience</p>
+            <div className="absolute -bottom-5 -right-3 sm:-right-6 bg-pearl border border-sand px-6 py-5 rounded-2xl shadow-card">
+              <p className="font-serif text-3xl text-secondary leading-none">10+</p>
+              <p className="kicker text-bronze mt-1.5">Years of Experience</p>
             </div>
           </div>
 
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-secondary mb-6">
-              Your Beauty, Our Expertise
+          <div className="order-1 lg:order-2">
+            <p className="kicker text-bronze mb-4">About us</p>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-secondary mb-6 leading-[1.1]">
+              Your Beauty, <em className="italic text-bronze">Our Expertise</em>
             </h2>
-            <p className="text-warmGray mb-6">
-              Since 2014, Brow Arc Threading has been the premier destination for 
-              exceptional high-quality beauty services. Our skilled professionals combine ancient techniques with modern precision to deliver results that enhance your natural beauty.
+            <p className="text-warmGray text-base sm:text-lg leading-relaxed mb-5">
+              Since 2014, Brow Arc Threading has been Melbourne's trusted destination for expert eyebrow threading and beauty services. Our skilled artists are passionate about creating the perfect brow shape to enhance your natural features.
             </p>
-            <div className="grid grid-cols-2 gap-6 mb-8">
-              <div>
-                <p className="text-2xl font-bold text-secondary">50,000+</p>
-                <p className="text-warmGray">Happy Clients</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-secondary">100%</p>
-                <p className="text-warmGray">Satisfaction</p>
-              </div>
+            <p className="text-warmGray text-base sm:text-lg leading-relaxed mb-8">
+              We pride ourselves on using premium products, maintaining the highest hygiene standards, and delivering results that exceed your expectations — every single visit.
+            </p>
+
+            <div className="grid grid-cols-3 gap-4 sm:gap-6">
+              {[
+                { n: "5", l: "Locations" },
+                { n: "30k+", l: "Happy Clients" },
+                { n: "7", l: "Days a Week" },
+              ].map((s) => (
+                <div key={s.l} className="text-center bg-pearl border border-sand rounded-2xl py-5 px-2">
+                  <p className="font-serif text-2xl sm:text-3xl text-bronze">{s.n}</p>
+                  <p className="kicker text-warmGray mt-1.5">{s.l}</p>
+                </div>
+              ))}
             </div>
-            <button className="bg-secondary hover:bg-secondary-light text-white px-8 py-3 rounded-full transition-colors">
-              Learn More
-            </button>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import Navbar from "../components/Navbar";
+import MobileCallBar from "../components/MobileCallBar";
 import LoadingSpinner from "../components/ui/loading-spinner";
 import SEO from "../components/SEO";
 import { locations as allLocations } from "../data/locationData";
@@ -60,13 +61,14 @@ const Locations = () => {
         jsonLd={locationsJsonLd}
       />
       <Navbar />
-      <div className="container mx-auto px-2 sm:px-4 py-8 sm:py-12 pt-20 sm:pt-24">
-        <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-4xl font-bold text-secondary mb-3 sm:mb-4">
-            Visit Us at One of Our Five Convenient Locations
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 pt-24 sm:pt-28">
+        <div className="text-center mb-10 sm:mb-14 max-w-2xl mx-auto">
+          <p className="kicker text-bronze mb-4">Find us</p>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-secondary mb-4 leading-[1.1]">
+            5 Convenient <em className="italic text-bronze">Melbourne</em> Locations
           </h1>
-          <p className="text-warmGray text-sm sm:text-lg max-w-2xl mx-auto">
-            Each location is designed to provide privacy and comfort while delivering exceptional beauty services.
+          <p className="text-warmGray text-base sm:text-lg">
+            Walk into any of our salons — each space is designed for privacy, comfort and beautifully precise results.
           </p>
         </div>
 
@@ -93,6 +95,8 @@ const Locations = () => {
           </Suspense>
         </div>
       </div>
+      <MobileCallBar />
+      <div className="md:hidden h-20" aria-hidden="true" />
     </div>
   );
 };

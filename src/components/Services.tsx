@@ -67,35 +67,36 @@ const Services = () => {
 
 
   return (
-    <section id="services" className="py-16 sm:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary mb-3 sm:mb-4">
-            Our Services & Prices
+    <section id="services" className="py-20 lg:py-28 bg-white">
+      <div className="container mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 lg:mb-16 max-w-2xl mx-auto">
+          <p className="kicker text-bronze mb-4">Services & Prices</p>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-secondary mb-5">
+            Crafted for <em className="italic text-bronze">every brow</em>
           </h2>
-          <p className="text-warmGray text-sm sm:text-base max-w-2xl mx-auto">
-            Browse our treatments below. Pick your salon at the top of the page to see exact prices for that location.
+          <p className="text-warmGray text-base sm:text-lg leading-relaxed">
+            Browse our treatments below. Pick your salon at the top of the page to see exact pricing for that location.
           </p>
           {selectedLocation ? (
-            <p className="mt-3 inline-block bg-primary/10 text-secondary font-semibold text-sm sm:text-base px-4 py-2 rounded-full">
-              ✓ Showing prices for: {locationNames[selectedLocation as keyof typeof locationNames]}
+            <p className="mt-5 inline-flex items-center gap-2 bg-sand text-secondary font-medium text-sm px-5 py-2.5 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-bronze" />
+              Showing prices for {locationNames[selectedLocation as keyof typeof locationNames]}
             </p>
           ) : (
-            <p className="mt-3 inline-block bg-yellow-50 border border-yellow-200 text-yellow-800 font-medium text-sm px-4 py-2 rounded-full">
-              👆 Tip: Choose your salon at the top to see prices
+            <p className="mt-5 inline-block bg-sand/60 border border-sand text-secondary text-sm px-5 py-2.5 rounded-full">
+              Tip: choose your salon at the top to see exact prices
             </p>
           )}
-          
-          {/* Search functionality */}
-          <div className="mt-6 max-w-md mx-auto">
+
+          <div className="mt-7 max-w-md mx-auto">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-warmGray" size={20} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-warmGray" size={18} />
               <Input
                 type="text"
-                placeholder="Search a service (e.g. eyebrow, facial, wax)..."
+                placeholder="Search a service (e.g. eyebrow, facial, wax)…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12 border-2 border-primary/20 focus:border-primary focus:ring-primary"
+                className="pl-11 h-12 bg-pearl border border-sand focus:border-bronze focus:ring-bronze rounded-full"
               />
             </div>
           </div>
@@ -119,14 +120,14 @@ const Services = () => {
           )}
         </Suspense>
 
-        <div className="text-center mt-10 sm:mt-12">
-          <button 
-            onClick={handleCall}
-            className="bg-primary hover:bg-primary-dark text-secondary px-6 sm:px-8 py-2 sm:py-3 rounded-full text-base sm:text-lg transition-colors flex items-center gap-2 mx-auto"
+        <div className="text-center mt-10 lg:mt-14">
+          <a
+            href="tel:+61415469594"
+            className="inline-flex items-center gap-2.5 bg-secondary hover:bg-bronze text-pearl px-8 py-4 rounded-full text-base font-semibold shadow-card hover:shadow-lux transition-all"
           >
             <Phone size={18} />
-            Book Now
-          </button>
+            Call to Book Your Treatment
+          </a>
         </div>
       </div>
     </section>

@@ -55,11 +55,14 @@ const ServiceCategory: FC<ServiceCategoryProps> = ({ category, items, selectedLo
   if (availableServices.length === 0) return null;
 
   return (
-    <div className="mb-16">
-      <h3 className="text-2xl font-bold text-primary mb-8 text-center capitalize">
-        {category.replace(/([A-Z])/g, ' $1').trim()}
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div className="mb-14 sm:mb-16">
+      <div className="text-center mb-8 sm:mb-10">
+        <h3 className="font-serif text-2xl sm:text-3xl text-secondary capitalize">
+          {category.replace(/([A-Z])/g, ' $1').trim()}
+        </h3>
+        <div className="w-12 h-px bg-bronze mx-auto mt-3" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7">
         {availableServices.map((service, index) => (
           <ServiceCard
             key={index}
