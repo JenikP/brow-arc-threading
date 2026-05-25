@@ -12,20 +12,22 @@ interface ServiceCardProps {
 const ServiceCard: FC<ServiceCardProps> = ({ title, price, description, image }) => {
   return (
     <motion.div 
-      className="h-full flex flex-col rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+      className="h-full flex flex-col rounded-2xl overflow-hidden bg-white border border-sand shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300"
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
     >
-      <div className="relative h-64">
+      <div className="relative h-56 sm:h-60 overflow-hidden">
         <img 
           src={image} 
           alt={title} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          loading="lazy"
         />
       </div>
       
-      <div className="flex-grow">
+      <div className="flex-grow flex flex-col">
         <ServiceDetails
           title={title}
           price={price}

@@ -57,11 +57,14 @@ const ServiceSlideshow = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-pearl">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl sm:text-4xl font-bold text-secondary mb-12 text-center">
-          Our Beauty Services
-        </h2>
+    <section className="py-16 lg:py-24 bg-pearl">
+      <div className="container mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="text-center mb-10 lg:mb-14">
+          <p className="kicker text-bronze mb-3">What we do</p>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-secondary">
+            Our Beauty Services
+          </h2>
+        </div>
         <div className="max-w-7xl mx-auto">
           <Carousel
             opts={{
