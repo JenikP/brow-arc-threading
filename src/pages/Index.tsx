@@ -12,6 +12,7 @@ const ThreadingInfo = lazy(() => import("../components/ThreadingInfo"));
 const Services = lazy(() => import("../components/Services"));
 const About = lazy(() => import("../components/About"));
 const Testimonials = lazy(() => import("../components/Testimonials"));
+const HomeLocations = lazy(() => import("../components/HomeLocations"));
 const Contact = lazy(() => import("../components/Contact"));
 const Footer = lazy(() => import("../components/Footer"));
 
