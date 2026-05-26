@@ -3,7 +3,6 @@ import { useEffect, lazy, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import MobileCallBar from "../components/MobileCallBar";
 import SEO from "../components/SEO";
 import LoadingSpinner from "../components/ui/loading-spinner";
 
