@@ -23,6 +23,8 @@ const App = () => (
           <Route path="/locations" element={<Locations />} />
         </Routes>
       </BrowserRouter>
+      <Analytics />
+      <SpeedInsights />
     </TooltipProvider>
   </QueryClientProvider>
 );
