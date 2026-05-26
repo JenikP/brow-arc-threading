@@ -22,6 +22,7 @@ const locationsJsonLd = {
 // Lazy-loaded components
 const LocationMap = lazy(() => import("../components/locations/LocationMap"));
 const LocationList = lazy(() => import("../components/locations/LocationList"));
+import LocationQuickNav from "../components/locations/LocationQuickNav";
 
 // Location data moved to a separate file
 import { locations } from "../data/locationData";
