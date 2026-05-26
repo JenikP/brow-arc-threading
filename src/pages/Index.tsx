@@ -3,7 +3,6 @@ import { useEffect, lazy, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import MobileCallBar from "../components/MobileCallBar";
 import SEO from "../components/SEO";
 import LoadingSpinner from "../components/ui/loading-spinner";
 
@@ -13,6 +12,7 @@ const ThreadingInfo = lazy(() => import("../components/ThreadingInfo"));
 const Services = lazy(() => import("../components/Services"));
 const About = lazy(() => import("../components/About"));
 const Testimonials = lazy(() => import("../components/Testimonials"));
+const HomeLocations = lazy(() => import("../components/HomeLocations"));
 const Contact = lazy(() => import("../components/Contact"));
 const Footer = lazy(() => import("../components/Footer"));
 
@@ -44,11 +44,11 @@ const Index = () => {
         <Services />
         <About />
         <Testimonials />
+        <HomeLocations />
         <Contact />
         <Footer />
       </Suspense>
-      <MobileCallBar />
-      <div className="md:hidden h-20" aria-hidden="true" />
+
     </div>
   );
 };

@@ -2,7 +2,6 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import Navbar from "../components/Navbar";
-import MobileCallBar from "../components/MobileCallBar";
 import LoadingSpinner from "../components/ui/loading-spinner";
 import SEO from "../components/SEO";
 import { locations as allLocations } from "../data/locationData";
@@ -95,8 +94,6 @@ const Locations = () => {
           </Suspense>
         </div>
       </div>
-      <MobileCallBar />
-      <div className="md:hidden h-20" aria-hidden="true" />
     </div>
   );
 };
