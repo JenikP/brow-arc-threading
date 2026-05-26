@@ -85,27 +85,38 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2.5">
+        <div className="flex flex-col sm:flex-row gap-2.5 mb-2.5">
           <a
             href={`tel:${location.phone}`}
             onClick={(e) => e.stopPropagation()}
-            className="flex-1 inline-flex items-center justify-center gap-2 bg-secondary hover:bg-bronze text-pearl px-5 py-3 rounded-full text-sm font-semibold transition-colors"
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-secondary hover:bg-bronze text-pearl px-5 py-3.5 rounded-full text-sm font-semibold transition-colors shadow-card"
             aria-label={`Call ${location.name}`}
           >
             <Phone size={16} />
-            Call {location.phone.replace('+61', '0')}
+            Call to Book
           </a>
-          <button
-            onClick={handleSelectLocation}
-            className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-medium transition-colors border ${
-              isSelected
-                ? 'bg-bronze text-pearl border-bronze'
-                : 'border-secondary/30 text-secondary hover:bg-secondary hover:text-pearl'
-            }`}
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-pearl border border-bronze text-bronze hover:bg-bronze hover:text-pearl px-5 py-3.5 rounded-full text-sm font-semibold transition-colors"
+            aria-label={`Get directions to ${location.name}`}
           >
-            {isSelected ? 'Selected' : 'Set as my salon'}
-          </button>
+            <MapPin size={16} />
+            Get Directions
+          </a>
         </div>
+        <button
+          onClick={handleSelectLocation}
+          className={`w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium transition-colors ${
+            isSelected
+              ? 'bg-bronze/10 text-bronze'
+              : 'text-warmGray hover:text-secondary'
+          }`}
+        >
+          {isSelected ? '✓ This is my salon' : 'Set as my salon'}
+        </button>
       </div>
     </article>
   );
