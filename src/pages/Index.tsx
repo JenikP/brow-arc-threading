@@ -46,8 +46,7 @@ const Index = () => {
         <Contact />
         <Footer />
       </Suspense>
-      <MobileCallBar />
-      <div className="md:hidden h-20" aria-hidden="true" />
+
     </div>
   );
 };
