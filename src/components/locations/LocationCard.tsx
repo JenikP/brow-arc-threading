@@ -26,7 +26,8 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
 
   return (
     <article
-      className={`bg-white rounded-3xl overflow-hidden border transition-all duration-300 cursor-pointer
+      id={`location-${location.id}`}
+      className={`scroll-mt-28 bg-white rounded-3xl overflow-hidden border transition-all duration-300 cursor-pointer
         ${isSelected ? "border-bronze shadow-lux ring-2 ring-bronze/20" : "border-sand shadow-soft hover:shadow-card hover:border-primary/40"}`}
       onClick={onClick}
     >

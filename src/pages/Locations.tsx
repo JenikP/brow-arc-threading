@@ -22,6 +22,7 @@ const locationsJsonLd = {
 // Lazy-loaded components
 const LocationMap = lazy(() => import("../components/locations/LocationMap"));
 const LocationList = lazy(() => import("../components/locations/LocationList"));
+import LocationQuickNav from "../components/locations/LocationQuickNav";
 
 // Location data moved to a separate file
 import { locations } from "../data/locationData";
@@ -60,8 +61,8 @@ const Locations = () => {
         jsonLd={locationsJsonLd}
       />
       <Navbar />
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 pt-24 sm:pt-28">
-        <div className="text-center mb-10 sm:mb-14 max-w-2xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 pt-24 sm:pt-28 pb-32 sm:pb-24">
+        <div className="text-center mb-10 sm:mb-12 max-w-2xl mx-auto">
           <p className="kicker text-bronze mb-4">Find us</p>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-secondary mb-4 leading-[1.1]">
             5 Convenient <em className="italic text-bronze">Melbourne</em> Locations
@@ -70,6 +71,9 @@ const Locations = () => {
             Walk into any of our salons — each space is designed for privacy, comfort and beautifully precise results.
           </p>
         </div>
+
+        <LocationQuickNav locations={locations} onSelect={setSelectedLocation} />
+
 
         <div className={`grid ${isMobile ? 'grid-cols-1 gap-6' : 'lg:grid-cols-2 gap-8'} mb-8 sm:mb-12`}>
           {/* Conditionally show map based on screen size */}
