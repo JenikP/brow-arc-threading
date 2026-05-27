@@ -16,7 +16,8 @@ export const config = {
     publicKey: requireEnv('VITE_EMAILJS_PUBLIC_KEY')
   },
   recaptcha: {
-    siteKey: requireEnv('VITE_RECAPTCHA_SITE_KEY')
+    // Public site key — safe to ship to the browser
+    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LcNy_YqAAAAAAg2_QQqh0o7qSaSazRnXuXWEF8A'
   },
   googleMaps: {
     apiKey: requireEnv('VITE_GOOGLE_MAPS_API_KEY')
