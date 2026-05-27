@@ -1,11 +1,11 @@
-
 import { useState, useEffect, lazy, Suspense } from "react";
-import { useLoadScript } from "@react-google-maps/api";
 import Navbar from "../components/Navbar";
-import LoadingSpinner from "../components/ui/loading-spinner";
 import SEO from "../components/SEO";
-import { locations as allLocations } from "../data/locationData";
-import { config } from "../utils/config";
+import { locations as allLocations, locations } from "../data/locationData";
+import LocationQuickNav from "../components/locations/LocationQuickNav";
+import StylizedLocationMap from "../components/locations/StylizedLocationMap";
+
+const LocationList = lazy(() => import("../components/locations/LocationList"));
 
 const locationsJsonLd = {
   "@context": "https://schema.org",
@@ -20,38 +20,15 @@ const locationsJsonLd = {
   }))
 };
 
-// Lazy-loaded components
-const LocationMap = lazy(() => import("../components/locations/LocationMap"));
-const LocationList = lazy(() => import("../components/locations/LocationList"));
-import LocationQuickNav from "../components/locations/LocationQuickNav";
-
-// Location data moved to a separate file
-import { locations } from "../data/locationData";
-
 const Locations = () => {
   const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: config.googleMaps.apiKey,
-    libraries: ["places"] as any,
-  });
 
-  // Handle resize for responsive design
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-    
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // Show loading state while map is initializing
-  if (!isLoaded) return (
-    <div className="min-h-screen bg-pearl flex items-center justify-center">
-      <div className="animate-pulse text-secondary text-lg">Loading map...</div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-pearl w-full overflow-x-hidden">
@@ -75,29 +52,17 @@ const Locations = () => {
 
         <LocationQuickNav locations={locations} onSelect={setSelectedLocation} />
 
-
-        <div className={`grid ${isMobile ? 'grid-cols-1 gap-6' : 'lg:grid-cols-2 gap-8'} mb-8 sm:mb-12`}>
-          {/* Conditionally show map based on screen size */}
-          <Suspense fallback={<div className="h-[400px] bg-gray-100 animate-pulse rounded-lg"></div>}>
-            {(!isMobile || (isMobile && selectedLocation === null)) && (
-              <div className="h-[400px] sm:h-[500px] bg-white rounded-lg shadow-lg overflow-hidden">
-                <LocationMap 
-                  locations={locations}
-                  selectedLocation={selectedLocation}
-                  onLocationSelect={setSelectedLocation}
-                />
-              </div>
-            )}
-          </Suspense>
-          
-          <Suspense fallback={<div className="h-[400px] bg-gray-100 animate-pulse rounded-lg"></div>}>
-            <LocationList 
-              locations={locations} 
-              selectedLocation={selectedLocation}
-              onLocationSelect={setSelectedLocation} 
-            />
-          </Suspense>
+        <div className="mb-8 sm:mb-12">
+          <StylizedLocationMap />
         </div>
+
+        <Suspense fallback={<div className="h-[400px] bg-sand/40 animate-pulse rounded-3xl"></div>}>
+          <LocationList
+            locations={locations}
+            selectedLocation={selectedLocation}
+            onLocationSelect={setSelectedLocation}
+          />
+        </Suspense>
       </div>
     </div>
   );
