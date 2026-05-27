@@ -13,4 +13,5 @@ export interface LocationData {
   phone: string;
   image: string;
   hours: LocationHours;
+  directionsUrl?: string;
 }
