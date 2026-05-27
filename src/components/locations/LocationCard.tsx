@@ -12,9 +12,9 @@ interface LocationCardProps {
 const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
   const { setSelectedLocation } = useLocationStore();
 
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${location.name} ${location.address}`
-  )}`;
+  const mapsUrl =
+    location.directionsUrl ||
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.name} ${location.address}`)}`;
 
   const handleSelectLocation = (e: React.MouseEvent) => {
     e.stopPropagation();
