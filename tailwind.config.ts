@@ -40,7 +40,7 @@ export default {
         pearl: "#faf8f5",     // soft off-white background
         sand: "#f0ebe3",      // mid neutral surface
         bronze: "#8b7355",
-        warmGray: "#7a6f63",
+        warmGray: "#5f554b",  // darkened for WCAG AA contrast on pearl (≥4.5:1)
         charcoal: "#2d2520",
       },
       boxShadow: {
