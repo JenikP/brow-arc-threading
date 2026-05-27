@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import LoadingSpinner from "../components/ui/loading-spinner";
 import SEO from "../components/SEO";
 import { locations as allLocations } from "../data/locationData";
+import { config } from "../utils/config";
 
 const locationsJsonLd = {
   "@context": "https://schema.org",
@@ -31,7 +32,7 @@ const Locations = () => {
   const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyC4hE2uAkHRHhoZ23Iv8JH_0eXdrDA3ZX0",
+    googleMapsApiKey: config.googleMaps.apiKey,
     libraries: ["places"] as any,
   });
 
