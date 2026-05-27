@@ -1,13 +1,25 @@
 
-// Environment configuration with fallbacks
+// Environment configuration — values must be provided via env vars
+const requireEnv = (key: string): string => {
+  const value = (import.meta.env as Record<string, string | undefined>)[key];
+  if (!value) {
+    console.error(`[config] Missing required environment variable: ${key}`);
+    return '';
+  }
+  return value;
+};
+
 export const config = {
   emailjs: {
-    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_upmue6g',
-    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_ssjw2rx',
-    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'Lb6xJjZn1vHkJrjle'
+    serviceId: requireEnv('VITE_EMAILJS_SERVICE_ID'),
+    templateId: requireEnv('VITE_EMAILJS_TEMPLATE_ID'),
+    publicKey: requireEnv('VITE_EMAILJS_PUBLIC_KEY')
   },
   recaptcha: {
-    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LcNy_YqAAAAAAg2_QQqh0o7qSaSazRnXuXWEF8A'
+    siteKey: requireEnv('VITE_RECAPTCHA_SITE_KEY')
+  },
+  googleMaps: {
+    apiKey: requireEnv('VITE_GOOGLE_MAPS_API_KEY')
   }
 };
 
