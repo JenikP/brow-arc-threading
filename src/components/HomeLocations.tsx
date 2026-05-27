@@ -18,9 +18,9 @@ const HomeLocations = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {locations.map((loc) => {
-            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-              `${loc.name} ${loc.address}`
-            )}`;
+            const mapsUrl =
+              loc.directionsUrl ||
+              `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${loc.name} ${loc.address}`)}`;
             return (
               <article
                 key={loc.id}
