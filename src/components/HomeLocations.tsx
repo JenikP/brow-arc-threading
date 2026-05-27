@@ -1,6 +1,7 @@
 import { Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { locations } from "../data/locationData";
+import StylizedLocationMap from "./locations/StylizedLocationMap";
 
 const HomeLocations = () => {
   return (
@@ -12,9 +13,14 @@ const HomeLocations = () => {
             5 <em className="italic text-bronze">Melbourne</em> Salons
           </h2>
           <p className="text-warmGray text-base sm:text-lg">
-            Tap to call or get directions to the salon closest to you.
+            Tap a pin on the map to open directions, or call any salon directly below.
           </p>
         </div>
+
+        <div className="mb-12">
+          <StylizedLocationMap />
+        </div>
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {locations.map((loc) => {
