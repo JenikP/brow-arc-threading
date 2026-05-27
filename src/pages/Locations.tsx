@@ -32,7 +32,7 @@ const Locations = () => {
   const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyC4hE2uAkHRHhoZ23Iv8JH_0eXdrDA3ZX0",
+    googleMapsApiKey: config.googleMaps.apiKey,
     libraries: ["places"] as any,
   });
 
