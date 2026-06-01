@@ -74,3 +74,14 @@
     padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   }
 }
+
+@layer utilities {
+  @keyframes ringPulse {
+    0%   { box-shadow: 0 0 0 0 hsl(31 28% 46% / 0.55); }
+    70%  { box-shadow: 0 0 0 14px hsl(31 28% 46% / 0); }
+    100% { box-shadow: 0 0 0 0 hsl(31 28% 46% / 0); }
+  }
+  .ring-pulse {
+    animation: ringPulse 1.6s ease-out 1;
+  }
+}
