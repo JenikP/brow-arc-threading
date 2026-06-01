@@ -66,7 +66,7 @@ const Locations = () => {
         <LocationQuickNav locations={locations} onSelect={setSelectedLocation} />
 
         <div className="mb-8 sm:mb-12">
-          <StylizedLocationMap />
+          <StylizedLocationMap selectedId={selectedLocation} onPinSelect={handlePinSelect} />
         </div>
 
         <Suspense fallback={<div className="h-[400px] bg-sand/40 animate-pulse rounded-3xl"></div>}>
