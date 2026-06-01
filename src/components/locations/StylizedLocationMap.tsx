@@ -2,13 +2,18 @@ import { useMemo, useState } from "react";
 import { MapPin, Phone, ExternalLink } from "lucide-react";
 import { locations } from "../../data/locationData";
 
+interface StylizedLocationMapProps {
+  selectedId?: number | null;
+  onPinSelect?: (id: number) => void;
+}
+
 /**
  * Lightweight, dependency-free SVG map of greater Melbourne with 5 salon pins.
- * No Google Maps script / API key needed. Each pin opens its verified
- * directionsUrl in Google Maps in a new tab.
+ * If onPinSelect is provided, tapping a pin selects the matching location
+ * (parent typically scrolls to + highlights the card). Otherwise the pin
+ * opens the verified Google Maps directionsUrl in a new tab.
  */
 
-// Bounding box covering all 5 salons with comfortable padding.
 const BOUNDS = {
   latMin: -38.12,
   latMax: -37.70,
@@ -30,7 +35,6 @@ const SHORT_NAMES: Record<number, string> = {
   5: "Warringal",
 };
 
-// Where to place the label relative to its pin to avoid overlap with neighbours.
 const LABEL_POS: Record<number, "top" | "bottom" | "left" | "right"> = {
   1: "right",
   2: "left",
@@ -39,8 +43,21 @@ const LABEL_POS: Record<number, "top" | "bottom" | "left" | "right"> = {
   5: "top",
 };
 
-const StylizedLocationMap = () => {
-  const [active, setActive] = useState<number | null>(null);
+const labelClasses = (pos: "top" | "bottom" | "left" | "right") => {
+  switch (pos) {
+    case "right":
+      return "left-full top-1/2 -translate-y-1/2 ml-2";
+    case "left":
+      return "right-full top-1/2 -translate-y-1/2 mr-2";
+    case "top":
+      return "left-1/2 -translate-x-1/2 bottom-full mb-2";
+    default:
+      return "left-1/2 -translate-x-1/2 top-full mt-2";
+  }
+};
+
+const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapProps) => {
+  const [hovered, setHovered] = useState<number | null>(null);
 
   const pins = useMemo(
     () =>
@@ -55,7 +72,6 @@ const StylizedLocationMap = () => {
 
   return (
     <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-3xl overflow-hidden border border-sand shadow-card bg-secondary">
-      {/* Stylized SVG map background */}
       <svg
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
@@ -75,7 +91,6 @@ const StylizedLocationMap = () => {
         <rect width="100" height="100" fill="url(#mapBg)" />
         <rect width="100" height="100" fill="url(#grid)" />
 
-        {/* Abstract bay / coastline curve (Port Phillip Bay suggestion) */}
         <path
           d="M -5 75 Q 10 70 18 78 T 35 88 T 55 95 T 80 92 L 105 100 L 105 105 L -5 105 Z"
           fill="#8b7355"
@@ -89,7 +104,6 @@ const StylizedLocationMap = () => {
           strokeWidth="0.35"
         />
 
-        {/* Abstract arterial road lines */}
         <g stroke="#c9b99a" strokeOpacity="0.18" strokeWidth="0.25" fill="none">
           <path d="M 0 30 Q 30 32 55 45 T 100 55" />
           <path d="M 10 0 Q 25 40 45 60 T 70 100" />
@@ -97,11 +111,9 @@ const StylizedLocationMap = () => {
           <path d="M 50 0 L 55 100" />
         </g>
 
-        {/* Subtle radial halo behind the cluster */}
         <circle cx="35" cy="55" r="40" fill="#c9b99a" fillOpacity="0.04" />
       </svg>
 
-      {/* Decorative compass + label */}
       <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 flex items-center gap-2 text-pearl/70">
         <div className="w-6 h-6 rounded-full border border-pearl/30 flex items-center justify-center text-[10px] font-medium">
           N
@@ -113,81 +125,118 @@ const StylizedLocationMap = () => {
         <p className="kicker text-pearl/50 text-right">5 salons · tap a pin</p>
       </div>
 
-      {/* Interactive pins */}
       {pins.map((p) => {
-        const isActive = active === p.id;
+        const isSelected = selectedId === p.id;
+        const isActive = hovered === p.id || isSelected;
+        const useButton = !!onPinSelect;
+
+        const innerPin = (
+          <>
+            {/* Pulse ring */}
+            <span
+              className={`absolute left-1/2 -translate-x-1/2 bottom-0 w-3 h-3 rounded-full bg-primary/40 ${
+                isSelected ? "animate-ping" : "animate-ping opacity-60"
+              }`}
+            />
+            {/* Pin */}
+            <span
+              className={`relative flex items-center justify-center w-9 h-9 rounded-full shadow-lux ring-2 transition-all
+                ${
+                  isSelected
+                    ? "bg-pearl text-secondary ring-primary scale-110"
+                    : isActive
+                    ? "bg-pearl text-secondary ring-primary scale-105"
+                    : "bg-bronze text-pearl ring-pearl/40 group-hover:scale-110"
+                }`}
+            >
+              <MapPin size={16} strokeWidth={2.5} />
+            </span>
+            {/* Stem */}
+            <span className="block mx-auto w-px h-3 bg-pearl/40" />
+
+            {/* Permanent name label badge — consistent across breakpoints */}
+            <span
+              className={`absolute whitespace-nowrap rounded-full text-[11px] sm:text-xs font-semibold tracking-tight leading-none px-2.5 py-1.5 shadow-card pointer-events-none transition-colors
+                ${
+                  isSelected
+                    ? "bg-bronze text-pearl ring-1 ring-pearl/30"
+                    : "bg-secondary text-pearl ring-1 ring-pearl/15"
+                }
+                ${labelClasses(p.labelPos)}`}
+            >
+              {p.shortName}
+            </span>
+
+            {/* Hover tooltip card */}
+            <div
+              className={`absolute left-1/2 -translate-x-1/2 mt-2 w-56 sm:w-64 rounded-2xl bg-pearl text-secondary p-3 sm:p-4 shadow-lux border border-sand transition-all origin-top z-30
+                ${hovered === p.id ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
+              role="tooltip"
+            >
+              <p className="font-serif text-base sm:text-lg leading-tight mb-1">{p.name}</p>
+              <p className="text-warmGray text-xs leading-snug mb-2 line-clamp-2">{p.address}</p>
+              <div className="flex items-center justify-between gap-2">
+                <a
+                  href={`tel:${p.phone}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1 text-bronze text-xs font-semibold hover:text-secondary"
+                >
+                  <Phone size={11} /> Call
+                </a>
+                <a
+                  href={p.directionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1 text-bronze text-xs font-semibold hover:text-secondary"
+                >
+                  Directions <ExternalLink size={11} />
+                </a>
+              </div>
+            </div>
+          </>
+        );
+
         return (
           <div
             key={p.id}
-            className="absolute z-20"
+            className="absolute"
             style={{
               left: `${p.x}%`,
               top: `${p.y}%`,
               transform: "translate(-50%, -100%)",
+              zIndex: isSelected ? 30 : 20,
             }}
           >
-            <a
-              href={p.directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => setActive(p.id)}
-              onMouseLeave={() => setActive(null)}
-              onFocus={() => setActive(p.id)}
-              onBlur={() => setActive(null)}
-              onClick={() => setActive(p.id)}
-              aria-label={`Open ${p.name} in Google Maps`}
-              className="group block focus:outline-none"
-            >
-              {/* Pulse ring */}
-              <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-3 h-3 rounded-full bg-primary/40 animate-ping" />
-              {/* Pin */}
-              <span
-                className={`relative flex items-center justify-center w-9 h-9 rounded-full shadow-lux ring-2 transition-all
-                  ${isActive ? "bg-pearl text-secondary ring-primary scale-110" : "bg-bronze text-pearl ring-pearl/40 group-hover:scale-110"}`}
+            {useButton ? (
+              <button
+                type="button"
+                onMouseEnter={() => setHovered(p.id)}
+                onMouseLeave={() => setHovered(null)}
+                onFocus={() => setHovered(p.id)}
+                onBlur={() => setHovered(null)}
+                onClick={() => onPinSelect?.(p.id)}
+                aria-label={`Show ${p.name} details`}
+                aria-pressed={isSelected}
+                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
               >
-                <MapPin size={16} strokeWidth={2.5} />
-              </span>
-              {/* Stem */}
-              <span className="block mx-auto w-px h-3 bg-pearl/40" />
-
-              {/* Permanent name label badge */}
-              <span
-                className={`absolute whitespace-nowrap rounded-full bg-secondary/90 backdrop-blur text-pearl text-[10px] sm:text-xs font-semibold px-2.5 py-1 border border-pearl/15 shadow-card pointer-events-none
-                  ${
-                    p.labelPos === "right"
-                      ? "left-full top-1/2 -translate-y-1/2 ml-2"
-                      : p.labelPos === "left"
-                      ? "right-full top-1/2 -translate-y-1/2 mr-2"
-                      : p.labelPos === "top"
-                      ? "left-1/2 -translate-x-1/2 bottom-full mb-1.5"
-                      : "left-1/2 -translate-x-1/2 top-full mt-1.5"
-                  }`}
+                {innerPin}
+              </button>
+            ) : (
+              <a
+                href={p.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => setHovered(p.id)}
+                onMouseLeave={() => setHovered(null)}
+                onFocus={() => setHovered(p.id)}
+                onBlur={() => setHovered(null)}
+                aria-label={`Open ${p.name} in Google Maps`}
+                className="group block focus:outline-none"
               >
-                {p.shortName}
-              </span>
-
-              {/* Tooltip card */}
-              <div
-                className={`absolute left-1/2 -translate-x-1/2 mt-2 w-56 sm:w-64 rounded-2xl bg-pearl text-secondary p-3 sm:p-4 shadow-lux border border-sand transition-all origin-top
-                  ${isActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
-                role="tooltip"
-              >
-                <p className="font-serif text-base sm:text-lg leading-tight mb-1">{p.name}</p>
-                <p className="text-warmGray text-xs leading-snug mb-2 line-clamp-2">{p.address}</p>
-                <div className="flex items-center justify-between gap-2">
-                  <a
-                    href={`tel:${p.phone}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1 text-bronze text-xs font-semibold hover:text-secondary"
-                  >
-                    <Phone size={11} /> Call
-                  </a>
-                  <span className="inline-flex items-center gap-1 text-bronze text-xs font-semibold">
-                    Directions <ExternalLink size={11} />
-                  </span>
-                </div>
-              </div>
-            </a>
+                {innerPin}
+              </a>
+            )}
           </div>
         );
       })}
