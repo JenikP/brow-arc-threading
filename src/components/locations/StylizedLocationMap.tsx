@@ -150,6 +150,22 @@ const StylizedLocationMap = () => {
               {/* Stem */}
               <span className="block mx-auto w-px h-3 bg-pearl/40" />
 
+              {/* Permanent name label badge */}
+              <span
+                className={`absolute whitespace-nowrap rounded-full bg-secondary/90 backdrop-blur text-pearl text-[10px] sm:text-xs font-semibold px-2.5 py-1 border border-pearl/15 shadow-card pointer-events-none
+                  ${
+                    p.labelPos === "right"
+                      ? "left-full top-1/2 -translate-y-1/2 ml-2"
+                      : p.labelPos === "left"
+                      ? "right-full top-1/2 -translate-y-1/2 mr-2"
+                      : p.labelPos === "top"
+                      ? "left-1/2 -translate-x-1/2 bottom-full mb-1.5"
+                      : "left-1/2 -translate-x-1/2 top-full mt-1.5"
+                  }`}
+              >
+                {p.shortName}
+              </span>
+
               {/* Tooltip card */}
               <div
                 className={`absolute left-1/2 -translate-x-1/2 mt-2 w-56 sm:w-64 rounded-2xl bg-pearl text-secondary p-3 sm:p-4 shadow-lux border border-sand transition-all origin-top
