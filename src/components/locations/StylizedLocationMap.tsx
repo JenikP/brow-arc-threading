@@ -22,6 +22,23 @@ const toXY = (lat: number, lng: number) => {
   return { x, y };
 };
 
+const SHORT_NAMES: Record<number, string> = {
+  1: "Brandon Park",
+  2: "Southland",
+  3: "Pakenham",
+  4: "Stud Park",
+  5: "Warringal",
+};
+
+// Where to place the label relative to its pin to avoid overlap with neighbours.
+const LABEL_POS: Record<number, "top" | "bottom" | "left" | "right"> = {
+  1: "right",
+  2: "left",
+  3: "left",
+  4: "right",
+  5: "top",
+};
+
 const StylizedLocationMap = () => {
   const [active, setActive] = useState<number | null>(null);
 
@@ -29,6 +46,8 @@ const StylizedLocationMap = () => {
     () =>
       locations.map((loc) => ({
         ...loc,
+        shortName: SHORT_NAMES[loc.id] ?? loc.name,
+        labelPos: LABEL_POS[loc.id] ?? "bottom",
         ...toXY(loc.coordinates.lat, loc.coordinates.lng),
       })),
     []
