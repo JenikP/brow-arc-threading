@@ -11,7 +11,7 @@ interface LocationListProps {
 
 const LocationList: FC<LocationListProps> = ({ locations, selectedLocation, onLocationSelect }) => {
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
       {locations.map((location) => (
         <LocationCard
           key={location.id}

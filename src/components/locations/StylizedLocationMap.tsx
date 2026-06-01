@@ -22,6 +22,23 @@ const toXY = (lat: number, lng: number) => {
   return { x, y };
 };
 
+const SHORT_NAMES: Record<number, string> = {
+  1: "Brandon Park",
+  2: "Southland",
+  3: "Pakenham",
+  4: "Stud Park",
+  5: "Warringal",
+};
+
+// Where to place the label relative to its pin to avoid overlap with neighbours.
+const LABEL_POS: Record<number, "top" | "bottom" | "left" | "right"> = {
+  1: "right",
+  2: "left",
+  3: "left",
+  4: "right",
+  5: "top",
+};
+
 const StylizedLocationMap = () => {
   const [active, setActive] = useState<number | null>(null);
 
@@ -29,6 +46,8 @@ const StylizedLocationMap = () => {
     () =>
       locations.map((loc) => ({
         ...loc,
+        shortName: SHORT_NAMES[loc.id] ?? loc.name,
+        labelPos: LABEL_POS[loc.id] ?? "bottom",
         ...toXY(loc.coordinates.lat, loc.coordinates.lng),
       })),
     []
@@ -130,6 +149,22 @@ const StylizedLocationMap = () => {
               </span>
               {/* Stem */}
               <span className="block mx-auto w-px h-3 bg-pearl/40" />
+
+              {/* Permanent name label badge */}
+              <span
+                className={`absolute whitespace-nowrap rounded-full bg-secondary/90 backdrop-blur text-pearl text-[10px] sm:text-xs font-semibold px-2.5 py-1 border border-pearl/15 shadow-card pointer-events-none
+                  ${
+                    p.labelPos === "right"
+                      ? "left-full top-1/2 -translate-y-1/2 ml-2"
+                      : p.labelPos === "left"
+                      ? "right-full top-1/2 -translate-y-1/2 mr-2"
+                      : p.labelPos === "top"
+                      ? "left-1/2 -translate-x-1/2 bottom-full mb-1.5"
+                      : "left-1/2 -translate-x-1/2 top-full mt-1.5"
+                  }`}
+              >
+                {p.shortName}
+              </span>
 
               {/* Tooltip card */}
               <div
