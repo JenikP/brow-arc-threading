@@ -30,6 +30,19 @@ const Locations = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handlePinSelect = (id: number) => {
+    setSelectedLocation(id);
+    // Defer to next frame so the card is mounted/visible before scrolling.
+    requestAnimationFrame(() => {
+      const el = document.getElementById(`location-${id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("ring-pulse");
+        window.setTimeout(() => el.classList.remove("ring-pulse"), 1800);
+      }
+    });
+  };
+
   return (
     <div className="min-h-screen bg-pearl w-full overflow-x-hidden">
       <SEO
