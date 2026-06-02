@@ -1,9 +1,10 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import Navbar from "../components/Navbar";
 import SEO from "../components/SEO";
 import { locations as allLocations, locations } from "../data/locationData";
 import LocationQuickNav from "../components/locations/LocationQuickNav";
 import StylizedLocationMap from "../components/locations/StylizedLocationMap";
+import { useLocationStore } from "../stores/locationStore";
 
 const LocationList = lazy(() => import("../components/locations/LocationList"));
 
@@ -21,18 +22,20 @@ const locationsJsonLd = {
 };
 
 const Locations = () => {
-  const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const { selectedLocation: storeId, setSelectedLocation: setStoreId } = useLocationStore();
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Derive numeric id from global storeId
+  const selectedLocation =
+    locations.find((l) => l.storeId === storeId)?.id ?? null;
+
+  const selectById = (id: number | null) => {
+    if (id === null) return;
+    const loc = locations.find((l) => l.id === id);
+    if (loc) setStoreId(loc.storeId);
+  };
 
   const handlePinSelect = (id: number) => {
-    setSelectedLocation(id);
-    // Defer to next frame so the card is mounted/visible before scrolling.
+    selectById(id);
     requestAnimationFrame(() => {
       const el = document.getElementById(`location-${id}`);
       if (el) {
@@ -63,7 +66,11 @@ const Locations = () => {
           </p>
         </div>
 
-        <LocationQuickNav locations={locations} onSelect={setSelectedLocation} />
+        <LocationQuickNav
+          locations={locations}
+          selectedId={selectedLocation}
+          onSelect={selectById}
+        />
 
         <div className="mb-8 sm:mb-12">
           <StylizedLocationMap selectedId={selectedLocation} onPinSelect={handlePinSelect} />
@@ -73,7 +80,7 @@ const Locations = () => {
           <LocationList
             locations={locations}
             selectedLocation={selectedLocation}
-            onLocationSelect={setSelectedLocation}
+            onLocationSelect={(id) => selectById(id)}
           />
         </Suspense>
       </div>
