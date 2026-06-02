@@ -41,20 +41,32 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
       onClick={onClick}
     >
       <div className="p-5 sm:p-6 flex flex-col flex-1">
-        {/* Region label + name */}
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="min-w-0">
+        {/* Region label + name + compact image */}
+        <div className="flex items-start gap-4 mb-3">
+          <div className="min-w-0 flex-1">
             <p className="kicker text-bronze text-[10px] mb-2 tracking-[0.25em]">
               {REGION[location.id] ?? "Melbourne"}
             </p>
             <h3 className="font-serif text-2xl text-secondary leading-tight">{location.name}</h3>
           </div>
-          {isSelected && (
-            <div className="bg-bronze text-pearl w-7 h-7 rounded-full flex items-center justify-center shadow-card shrink-0">
-              <Check size={14} />
-            </div>
-          )}
+          <div className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border border-stone-200/80 shadow-soft">
+            <img
+              src={location.image}
+              alt={`${location.name} studio`}
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+            {isSelected && (
+              <div className="absolute inset-0 ring-2 ring-bronze rounded-xl pointer-events-none" />
+            )}
+          </div>
         </div>
+        {isSelected && (
+          <div className="inline-flex items-center gap-1.5 self-start bg-bronze text-pearl px-2 py-0.5 rounded-full text-[10px] font-semibold mb-3 shadow-card">
+            <Check size={11} /> Your salon
+          </div>
+        )}
+
 
         <a
           href={mapsUrl}
