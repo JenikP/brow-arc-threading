@@ -261,7 +261,7 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
                   onClick={() => onPinSelect?.(p.id)}
                   aria-label={`Show ${p.name} details`}
                   aria-pressed={isSelected}
-                  className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
+                  className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full p-3 sm:p-1 -m-3 sm:-m-1 touch-manipulation"
                 >
                   {innerPin}
                 </button>
@@ -275,7 +275,7 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
                   onFocus={() => setHovered(p.id)}
                   onBlur={() => setHovered(null)}
                   aria-label={`Open ${p.name} in Google Maps`}
-                  className="group block focus:outline-none"
+                  className="group block focus:outline-none p-3 sm:p-1 -m-3 sm:-m-1 touch-manipulation"
                 >
                   {innerPin}
                 </a>
