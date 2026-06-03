@@ -57,7 +57,7 @@ export const facialThreadingWaxing = [
       "location4": "from $10",
       "location5": "from $12"
     },
-    image: "https://media.istockphoto.com/id/1477768022/photo/yellow-paste-for-shugaring-on-a-wooden-stick-close-up.jpg?s=612x612&w=0&k=20&c=mCs0a_dmusbT3DQPiEgkhujQn9d1Dcs8jd28Jf8fGAw="
+    image: sideburnImg.url
   },
   {
     title: "Neck",
