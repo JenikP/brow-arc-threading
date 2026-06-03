@@ -1,4 +1,5 @@
-import { Phone, ExternalLink, Check, Clock } from "lucide-react";
+import { useState } from "react";
+import { Phone, ExternalLink, Check, Clock, ChevronDown } from "lucide-react";
 import { useLocationStore } from "../../stores/locationStore";
 import { toast } from "sonner";
 import { LocationData } from "../../types/location";
@@ -17,12 +18,28 @@ const REGION: Record<number, string> = {
   5: "Melbourne North-East",
 };
 
+// Map today's weekday to the matching hours key
+const getTodayHoursKey = (hours: Record<string, string>): string | null => {
+  const day = new Date().getDay(); // 0=Sun..6=Sat
+  const keys = Object.keys(hours);
+  const match = (predicate: (k: string) => boolean) => keys.find(predicate) ?? null;
+
+  if (day === 0) return match((k) => /sun/i.test(k));
+  if (day === 6) return match((k) => /sat/i.test(k));
+  if (day >= 1 && day <= 3) return match((k) => /mon|tue|wed/i.test(k)) ?? keys[0];
+  return match((k) => /thu|fri/i.test(k)) ?? keys[0];
+};
+
 const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
   const { setSelectedLocation } = useLocationStore();
+  const [hoursOpen, setHoursOpen] = useState(false);
 
   const mapsUrl =
     location.directionsUrl ||
     `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.name} ${location.address}`)}`;
+
+  const todayKey = getTodayHoursKey(location.hours);
+  const todayHours = todayKey ? location.hours[todayKey] : null;
 
   const handleSelectLocation = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -40,16 +57,10 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
       style={{ backgroundColor: "#faf8f5" }}
       onClick={onClick}
     >
-      <div className="p-5 sm:p-6 flex flex-col flex-1">
-        {/* Region label + name + compact image */}
-        <div className="flex items-start gap-4 mb-3">
-          <div className="min-w-0 flex-1">
-            <p className="kicker text-bronze text-[10px] mb-2 tracking-[0.25em]">
-              {REGION[location.id] ?? "Melbourne"}
-            </p>
-            <h3 className="font-serif text-2xl text-secondary leading-tight">{location.name}</h3>
-          </div>
-          <div className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border border-stone-200/80 shadow-soft">
+      <div className="p-4 sm:p-6 flex flex-col flex-1">
+        {/* 2-column header: image left, content right */}
+        <div className="flex items-start gap-3 sm:gap-4 mb-3">
+          <div className="relative shrink-0 w-24 h-24 sm:w-24 sm:h-24 rounded-xl overflow-hidden border border-stone-200/80 shadow-soft">
             <img
               src={location.image}
               alt={`${location.name} studio`}
@@ -60,23 +71,30 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
               <div className="absolute inset-0 ring-2 ring-bronze rounded-xl pointer-events-none" />
             )}
           </div>
+          <div className="min-w-0 flex-1">
+            <p className="kicker text-bronze text-[10px] mb-1.5 tracking-[0.25em] uppercase">
+              {REGION[location.id] ?? "Melbourne"}
+            </p>
+            <h3 className="font-serif text-xl sm:text-2xl text-secondary leading-tight mb-1.5">
+              {location.name}
+            </h3>
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="block text-warmGray text-[12px] sm:text-sm leading-snug hover:text-bronze transition-colors"
+            >
+              {location.address}
+            </a>
+          </div>
         </div>
+
         {isSelected && (
           <div className="inline-flex items-center gap-1.5 self-start bg-bronze text-pearl px-2 py-0.5 rounded-full text-[10px] font-semibold mb-3 shadow-card">
             <Check size={11} /> Your salon
           </div>
         )}
-
-
-        <a
-          href={mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="block text-warmGray text-xs sm:text-sm leading-snug mb-4 hover:text-bronze transition-colors"
-        >
-          {location.address}
-        </a>
 
         {/* Open indicator */}
         <div className="flex items-center gap-2 mb-3">
@@ -89,24 +107,65 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
           </span>
         </div>
 
-        {/* Menu-style hours */}
-        <div className="mb-5">
-          <div className="flex items-center gap-1.5 mb-2">
-            <Clock size={12} className="text-bronze" />
-            <p className="kicker text-bronze text-[10px]">Opening Hours</p>
-          </div>
-          <div>
-            {Object.entries(location.hours).map(([day, hours]) => (
-              <div
-                key={day}
-                className="flex justify-between items-baseline gap-3 border-b border-stone-200/40 py-1.5 last:border-b-0"
-              >
-                <span className="text-warmGray text-[12px]">{day}</span>
-                <span className="text-secondary font-medium text-[12px] text-right whitespace-nowrap">
-                  {hours}
-                </span>
+        {/* Premium hours accordion */}
+        <div className="mb-5 rounded-xl border border-stone-200/60 bg-white/60 overflow-hidden">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setHoursOpen((v) => !v);
+            }}
+            aria-expanded={hoursOpen}
+            className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 text-left active:scale-[0.99] transition-transform"
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <Clock size={13} className="text-bronze shrink-0" />
+              <div className="min-w-0">
+                <p className="kicker text-bronze text-[10px] leading-tight">Today</p>
+                <p className="text-secondary font-medium text-[12px] truncate">
+                  {todayHours ?? "Tap to view opening hours"}
+                </p>
               </div>
-            ))}
+            </div>
+            <ChevronDown
+              size={16}
+              className={`text-bronze shrink-0 transition-transform duration-300 ${
+                hoursOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          <div
+            className={`grid transition-all duration-300 ease-out ${
+              hoursOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="px-3.5 pb-3 pt-1 border-t border-stone-200/50">
+                {Object.entries(location.hours).map(([day, hours]) => (
+                  <div
+                    key={day}
+                    className={`flex justify-between items-baseline gap-3 border-b border-stone-200/40 py-1.5 last:border-b-0 ${
+                      day === todayKey ? "text-bronze" : ""
+                    }`}
+                  >
+                    <span
+                      className={`text-[12px] ${
+                        day === todayKey ? "text-bronze font-semibold" : "text-warmGray"
+                      }`}
+                    >
+                      {day}
+                    </span>
+                    <span
+                      className={`font-medium text-[12px] text-right whitespace-nowrap ${
+                        day === todayKey ? "text-bronze" : "text-secondary"
+                      }`}
+                    >
+                      {hours}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -115,10 +174,10 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
             <a
               href={`tel:${location.phone}`}
               onClick={(e) => e.stopPropagation()}
-              className="flex-1 inline-flex items-center justify-center gap-1.5 bg-secondary hover:bg-bronze text-pearl px-3 py-2.5 rounded-full text-xs font-semibold shadow-card border border-transparent hover:border-bronze transition-all duration-200 hover:scale-[1.02]"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 bg-secondary hover:bg-bronze text-pearl px-3 py-3 sm:py-2.5 rounded-full text-sm sm:text-xs font-semibold shadow-card border border-transparent hover:border-bronze transition-all duration-200 active:scale-[0.98] sm:hover:scale-[1.02]"
               aria-label={`Call ${location.name}`}
             >
-              <Phone size={13} />
+              <Phone size={14} />
               Call to Book
             </a>
             <a
@@ -126,16 +185,16 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex-1 inline-flex items-center justify-center gap-1.5 bg-transparent border border-bronze text-bronze hover:bg-bronze hover:text-pearl px-3 py-2.5 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-[1.02]"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 bg-transparent border border-bronze text-bronze hover:bg-bronze hover:text-pearl px-3 py-3 sm:py-2.5 rounded-full text-sm sm:text-xs font-semibold transition-all duration-200 active:scale-[0.98] sm:hover:scale-[1.02]"
               aria-label={`Get directions to ${location.name}`}
             >
-              <ExternalLink size={13} />
+              <ExternalLink size={14} />
               Get Directions
             </a>
           </div>
           <button
             onClick={handleSelectLocation}
-            className={`w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-colors ${
+            className={`w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-colors active:scale-[0.98] ${
               isSelected ? "bg-bronze/10 text-bronze" : "text-warmGray hover:text-secondary"
             }`}
           >
