@@ -30,7 +30,7 @@ const SHORT_NAMES: Record<number, string> = {
 
 const LABEL_POS: Record<number, "top" | "bottom" | "left" | "right"> = {
   1: "right",
-  2: "left",
+  2: "right",
   3: "left",
   4: "right",
   5: "top",
