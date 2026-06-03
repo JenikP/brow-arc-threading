@@ -65,6 +65,9 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
               src={location.image}
               alt={`${location.name} studio`}
               loading="lazy"
+              decoding="async"
+              width={96}
+              height={96}
               className="w-full h-full object-cover"
             />
             {isSelected && (
@@ -99,8 +102,7 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
         {/* Open indicator */}
         <div className="flex items-center gap-2 mb-3">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.18)]" />
           </span>
           <span className="text-[11px] font-medium text-secondary/80 tracking-wide">
             Open 7 Days — Walk-ins Welcome
