@@ -1,3 +1,5 @@
+import sideburnImg from "../../assets/sideburn.jpg.asset.json";
+
 export const facialThreadingWaxing = [
   {
     title: "Eyebrow Threading/Waxing",
