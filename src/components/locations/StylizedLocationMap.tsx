@@ -170,19 +170,17 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
 
           const innerPin = (
             <>
+              {isSelected && (
+                <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-3 h-3 rounded-full bg-primary/40 animate-ping" />
+              )}
               <span
-                className={`absolute left-1/2 -translate-x-1/2 bottom-0 w-3 h-3 rounded-full bg-primary/40 animate-ping ${
-                  isSelected ? "opacity-100" : "opacity-50"
-                }`}
-              />
-              <span
-                className={`relative flex items-center justify-center w-9 h-9 rounded-full shadow-lux ring-2 transition-all
+                className={`relative flex items-center justify-center w-9 h-9 rounded-full shadow-lux ring-2 transition-transform
                   ${
                     isSelected
                       ? "bg-pearl text-secondary ring-primary scale-110"
                       : isActive
                       ? "bg-pearl text-secondary ring-primary scale-105"
-                      : "bg-bronze text-pearl ring-pearl/40 group-hover:scale-110"
+                      : "bg-bronze text-pearl ring-pearl/40"
                   }`}
               >
                 <MapPin size={16} strokeWidth={2.5} />
@@ -191,48 +189,49 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
 
               {/* Permanent label badge */}
               <span
-                className={`absolute whitespace-nowrap rounded-lg text-[11px] sm:text-xs font-semibold tracking-tight leading-none pointer-events-none transition-all
+                className={`absolute whitespace-nowrap rounded-lg text-[11px] sm:text-xs font-semibold tracking-tight leading-none pointer-events-none px-3 py-1.5 shadow-xl border
                   ${
                     isSelected
-                      ? "bg-bronze text-pearl border border-pearl/30 px-3 py-1.5 shadow-xl"
-                      : "bg-secondary/90 text-pearl border border-pearl/10 px-3 py-1.5 backdrop-blur-md shadow-xl"
+                      ? "bg-bronze text-pearl border-pearl/30"
+                      : "bg-secondary/95 text-pearl border-pearl/10"
                   }
                   ${labelClasses(p.labelPos)}`}
               >
                 {p.shortName}
               </span>
 
-              {/* Luxury tooltip */}
-              <div
-                className={`absolute left-1/2 -translate-x-1/2 mt-3 w-64 sm:w-72 rounded-xl p-4 shadow-lux transition-all origin-top z-30
-                  ${hovered === p.id ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" : "opacity-0 scale-95 -translate-y-1 pointer-events-none"}`}
-                style={{ backgroundColor: "#faf8f5" }}
-                role="tooltip"
-              >
-                <div className="border border-stone-200/80 -m-4 p-4 rounded-xl">
-                  <p className="kicker text-bronze text-[10px] mb-1">Brow Arc Threading</p>
-                  <p className="font-serif text-lg text-secondary leading-tight mb-1.5">{p.name}</p>
-                  <p className="text-warmGray text-xs leading-snug mb-3">{p.address}</p>
-                  <div className="border-t border-stone-200/40 pt-2 flex items-center justify-between gap-2">
-                    <a
-                      href={`tel:${p.phone}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 text-bronze text-xs font-semibold hover:text-secondary transition-colors"
-                    >
-                      <Phone size={11} /> Call Salon
-                    </a>
-                    <a
-                      href={p.directionsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 text-bronze text-xs font-semibold hover:text-secondary transition-colors"
-                    >
-                      Directions <ExternalLink size={11} />
-                    </a>
+              {/* Luxury tooltip - only mount when hovered to save layout/paint cost */}
+              {hovered === p.id && (
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 mt-3 w-64 sm:w-72 rounded-xl p-4 shadow-lux z-30"
+                  style={{ backgroundColor: "#faf8f5" }}
+                  role="tooltip"
+                >
+                  <div className="border border-stone-200/80 -m-4 p-4 rounded-xl">
+                    <p className="kicker text-bronze text-[10px] mb-1">Brow Arc Threading</p>
+                    <p className="font-serif text-lg text-secondary leading-tight mb-1.5">{p.name}</p>
+                    <p className="text-warmGray text-xs leading-snug mb-3">{p.address}</p>
+                    <div className="border-t border-stone-200/40 pt-2 flex items-center justify-between gap-2">
+                      <a
+                        href={`tel:${p.phone}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 text-bronze text-xs font-semibold hover:text-secondary transition-colors"
+                      >
+                        <Phone size={11} /> Call Salon
+                      </a>
+                      <a
+                        href={p.directionsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 text-bronze text-xs font-semibold hover:text-secondary transition-colors"
+                      >
+                        Directions <ExternalLink size={11} />
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </>
           );
 
