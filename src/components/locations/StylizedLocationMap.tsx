@@ -89,9 +89,6 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
               <stop offset="60%" stopColor="#c9b99a" stopOpacity="0.02" />
               <stop offset="100%" stopColor="#c9b99a" stopOpacity="0" />
             </radialGradient>
-            <pattern id="fineGrid" width="4" height="4" patternUnits="userSpaceOnUse">
-              <path d="M 4 0 L 0 0 0 4" fill="none" stroke="#8b7355" strokeOpacity="0.06" strokeWidth="0.15" />
-            </pattern>
             <pattern id="coarseGrid" width="20" height="20" patternUnits="userSpaceOnUse">
               <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#c9b99a" strokeOpacity="0.08" strokeWidth="0.2" />
             </pattern>
@@ -99,7 +96,6 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
 
           {/* Glow */}
           <rect width="100" height="100" fill="url(#haloGlow)" />
-          <rect width="100" height="100" fill="url(#fineGrid)" />
           <rect width="100" height="100" fill="url(#coarseGrid)" />
 
           {/* Landmass — Port Phillip Bay silhouette (stylized) */}
