@@ -65,6 +65,9 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
               src={location.image}
               alt={`${location.name} studio`}
               loading="lazy"
+              decoding="async"
+              width={96}
+              height={96}
               className="w-full h-full object-cover"
             />
             {isSelected && (
