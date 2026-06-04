@@ -348,9 +348,18 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
                 >
                   <X size={14} />
                 </button>
-                <p className="kicker text-bronze text-[10px] mb-1">Brow Arc Threading</p>
+                <div className="flex items-center justify-between gap-2 mb-1 pr-6">
+                  <p className="kicker text-bronze text-[10px]">Brow Arc Threading</p>
+                  <StatusBadge hours={active.hours} />
+                </div>
                 <p className="font-serif text-lg text-secondary leading-tight mb-1 pr-6">{active.name}</p>
-                <p className="text-warmGray text-xs leading-snug mb-3">{active.address}</p>
+                <p className="text-warmGray text-xs leading-snug mb-1.5">{active.address}</p>
+                {active.mallDirections && (
+                  <p className="flex items-start gap-1 text-bronze text-[11px] italic leading-snug mb-3">
+                    <Navigation size={10} className="mt-0.5 shrink-0" />
+                    <span>{active.mallDirections}</span>
+                  </p>
+                )}
                 <div className="border-t border-stone-200/40 pt-2 flex items-center justify-between gap-2">
                   <a
                     href={`tel:${active.phone}`}
