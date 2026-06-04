@@ -36,6 +36,20 @@ const LABEL_POS: Record<number, "top" | "bottom" | "left" | "right"> = {
   5: "top",
 };
 
+// Smart desktop tooltip positioning per pin to avoid edge clipping
+const TOOLTIP_POS: Record<number, string> = {
+  // Brandon Park — center: drop below
+  1: "left-1/2 -translate-x-1/2 top-full mt-3",
+  // Southland — left edge: open to the right
+  2: "left-full ml-3 top-1/2 -translate-y-1/2",
+  // Pakenham — bottom-right: open above & to the left
+  3: "right-full mr-3 bottom-full mb-3",
+  // Stud Park — center: drop below
+  4: "left-1/2 -translate-x-1/2 top-full mt-3",
+  // Warringal — top: drop below
+  5: "left-1/2 -translate-x-1/2 top-full mt-3",
+};
+
 const labelClasses = (pos: "top" | "bottom" | "left" | "right") => {
   switch (pos) {
     case "right":
