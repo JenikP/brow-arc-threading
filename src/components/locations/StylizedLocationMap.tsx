@@ -214,10 +214,10 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
                 {p.shortName}
               </span>
 
-              {/* Luxury tooltip - only mount when hovered to save layout/paint cost */}
+              {/* Luxury tooltip — desktop only, smart-positioned per pin */}
               {hovered === p.id && (
                 <div
-                  className="absolute left-1/2 -translate-x-1/2 mt-3 w-64 sm:w-72 rounded-xl p-4 shadow-lux z-30"
+                  className={`hidden sm:block absolute w-72 rounded-xl p-4 shadow-lux z-40 ${TOOLTIP_POS[p.id] ?? "left-1/2 -translate-x-1/2 top-full mt-3"}`}
                   style={{ backgroundColor: "#faf8f5" }}
                   role="tooltip"
                 >
