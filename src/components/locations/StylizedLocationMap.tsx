@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { MapPin, Phone, ExternalLink } from "lucide-react";
+import { MapPin, Phone, ExternalLink, X } from "lucide-react";
 import { locations } from "../../data/locationData";
 
 interface StylizedLocationMapProps {
