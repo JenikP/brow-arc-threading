@@ -14,4 +14,5 @@ export interface LocationData {
   image: string;
   hours: LocationHours;
   directionsUrl?: string;
+  mallDirections?: string;
 }
