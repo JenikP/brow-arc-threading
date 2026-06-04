@@ -1,6 +1,27 @@
 import { useMemo, useState } from "react";
-import { MapPin, Phone, ExternalLink, X } from "lucide-react";
+import { MapPin, Phone, ExternalLink, X, Navigation } from "lucide-react";
 import { locations } from "../../data/locationData";
+import { useOpenStatus } from "../../hooks/useOpenStatus";
+import type { LocationHours } from "../../types/location";
+
+const StatusBadge = ({ hours }: { hours: LocationHours }) => {
+  const status = useOpenStatus(hours);
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full ring-1 ${
+        status.isOpen
+          ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
+          : "bg-rose-50 text-rose-700 ring-rose-200"
+      }`}
+    >
+      <span className={`h-1.5 w-1.5 rounded-full ${status.isOpen ? "bg-emerald-500" : "bg-rose-500"}`} />
+      <span className="text-[10px] font-semibold tracking-wide">
+        {status.label}
+        <span className="font-normal opacity-80"> · {status.detail}</span>
+      </span>
+    </span>
+  );
+};
 
 interface StylizedLocationMapProps {
   selectedId?: number | null;
