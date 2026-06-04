@@ -1,6 +1,27 @@
 import { useMemo, useState } from "react";
-import { MapPin, Phone, ExternalLink, X } from "lucide-react";
+import { MapPin, Phone, ExternalLink, X, Navigation } from "lucide-react";
 import { locations } from "../../data/locationData";
+import { useOpenStatus } from "../../hooks/useOpenStatus";
+import type { LocationHours } from "../../types/location";
+
+const StatusBadge = ({ hours }: { hours: LocationHours }) => {
+  const status = useOpenStatus(hours);
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full ring-1 ${
+        status.isOpen
+          ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
+          : "bg-rose-50 text-rose-700 ring-rose-200"
+      }`}
+    >
+      <span className={`h-1.5 w-1.5 rounded-full ${status.isOpen ? "bg-emerald-500" : "bg-rose-500"}`} />
+      <span className="text-[10px] font-semibold tracking-wide">
+        {status.label}
+        <span className="font-normal opacity-80"> · {status.detail}</span>
+      </span>
+    </span>
+  );
+};
 
 interface StylizedLocationMapProps {
   selectedId?: number | null;
@@ -222,9 +243,18 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
                   role="tooltip"
                 >
                   <div className="border border-stone-200/80 -m-4 p-4 rounded-xl">
-                    <p className="kicker text-bronze text-[10px] mb-1">Brow Arc Threading</p>
-                    <p className="font-serif text-lg text-secondary leading-tight mb-1.5">{p.name}</p>
-                    <p className="text-warmGray text-xs leading-snug mb-3">{p.address}</p>
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <p className="kicker text-bronze text-[10px]">Brow Arc Threading</p>
+                      <StatusBadge hours={p.hours} />
+                    </div>
+                    <p className="font-serif text-lg text-secondary leading-tight mb-1">{p.name}</p>
+                    <p className="text-warmGray text-xs leading-snug mb-1.5">{p.address}</p>
+                    {p.mallDirections && (
+                      <p className="flex items-start gap-1 text-bronze text-[11px] italic leading-snug mb-3">
+                        <Navigation size={10} className="mt-0.5 shrink-0" />
+                        <span>{p.mallDirections}</span>
+                      </p>
+                    )}
                     <div className="border-t border-stone-200/40 pt-2 flex items-center justify-between gap-2">
                       <a
                         href={`tel:${p.phone}`}
@@ -318,9 +348,18 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
                 >
                   <X size={14} />
                 </button>
-                <p className="kicker text-bronze text-[10px] mb-1">Brow Arc Threading</p>
+                <div className="flex items-center justify-between gap-2 mb-1 pr-6">
+                  <p className="kicker text-bronze text-[10px]">Brow Arc Threading</p>
+                  <StatusBadge hours={active.hours} />
+                </div>
                 <p className="font-serif text-lg text-secondary leading-tight mb-1 pr-6">{active.name}</p>
-                <p className="text-warmGray text-xs leading-snug mb-3">{active.address}</p>
+                <p className="text-warmGray text-xs leading-snug mb-1.5">{active.address}</p>
+                {active.mallDirections && (
+                  <p className="flex items-start gap-1 text-bronze text-[11px] italic leading-snug mb-3">
+                    <Navigation size={10} className="mt-0.5 shrink-0" />
+                    <span>{active.mallDirections}</span>
+                  </p>
+                )}
                 <div className="border-t border-stone-200/40 pt-2 flex items-center justify-between gap-2">
                   <a
                     href={`tel:${active.phone}`}

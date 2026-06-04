@@ -13,6 +13,7 @@ const Services = lazy(() => import("../components/Services"));
 const About = lazy(() => import("../components/About"));
 const Testimonials = lazy(() => import("../components/Testimonials"));
 const HomeLocations = lazy(() => import("../components/HomeLocations"));
+const FAQ = lazy(() => import("../components/FAQ"));
 const Contact = lazy(() => import("../components/Contact"));
 const Footer = lazy(() => import("../components/Footer"));
 
@@ -45,6 +46,7 @@ const Index = () => {
         <About />
         <Testimonials />
         <HomeLocations />
+        <FAQ />
         <Contact />
         <Footer />
       </Suspense>

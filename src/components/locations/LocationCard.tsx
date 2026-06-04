@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Phone, ExternalLink, Check, Clock, ChevronDown } from "lucide-react";
+import { Phone, ExternalLink, Check, Clock, ChevronDown, Navigation } from "lucide-react";
 import { useLocationStore } from "../../stores/locationStore";
 import { toast } from "sonner";
 import { LocationData } from "../../types/location";
+import { useOpenStatus } from "../../hooks/useOpenStatus";
 
 interface LocationCardProps {
   location: LocationData;
@@ -33,6 +34,7 @@ const getTodayHoursKey = (hours: Record<string, string>): string | null => {
 const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
   const { setSelectedLocation } = useLocationStore();
   const [hoursOpen, setHoursOpen] = useState(false);
+  const status = useOpenStatus(location.hours);
 
   const mapsUrl =
     location.directionsUrl ||
@@ -90,6 +92,12 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
             >
               {location.address}
             </a>
+            {location.mallDirections && (
+              <p className="mt-1.5 flex items-start gap-1 text-bronze text-[11px] italic leading-snug">
+                <Navigation size={10} className="mt-0.5 shrink-0" />
+                <span>{location.mallDirections}</span>
+              </p>
+            )}
           </div>
         </div>
 
@@ -99,13 +107,27 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
           </div>
         )}
 
-        {/* Open indicator */}
-        <div className="flex items-center gap-2 mb-3">
+        {/* Live business hours status */}
+        <div
+          className={`inline-flex items-center gap-2 self-start px-2.5 py-1 rounded-full mb-3 ring-1 ${
+            status.isOpen
+              ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
+              : "bg-rose-50 text-rose-700 ring-rose-200"
+          }`}
+        >
           <span className="relative flex h-2 w-2">
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.18)]" />
+            {status.isOpen && (
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
+            )}
+            <span
+              className={`relative inline-flex rounded-full h-2 w-2 ${
+                status.isOpen ? "bg-emerald-500" : "bg-rose-500"
+              }`}
+            />
           </span>
-          <span className="text-[11px] font-medium text-secondary/80 tracking-wide">
-            Open 7 Days — Walk-ins Welcome
+          <span className="text-[11px] font-semibold tracking-wide">
+            {status.label}
+            <span className="font-normal opacity-80"> · {status.detail}</span>
           </span>
         </div>
 
