@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { MapPin, Phone, ExternalLink } from "lucide-react";
+import { MapPin, Phone, ExternalLink, X } from "lucide-react";
 import { locations } from "../../data/locationData";
 
 interface StylizedLocationMapProps {
@@ -34,6 +34,20 @@ const LABEL_POS: Record<number, "top" | "bottom" | "left" | "right"> = {
   3: "left",
   4: "right",
   5: "top",
+};
+
+// Smart desktop tooltip positioning per pin to avoid edge clipping
+const TOOLTIP_POS: Record<number, string> = {
+  // Brandon Park — center: drop below
+  1: "left-1/2 -translate-x-1/2 top-full mt-3",
+  // Southland — left edge: open to the right
+  2: "left-full ml-3 top-1/2 -translate-y-1/2",
+  // Pakenham — bottom-right: open above & to the left
+  3: "right-full mr-3 bottom-full mb-3",
+  // Stud Park — center: drop below
+  4: "left-1/2 -translate-x-1/2 top-full mt-3",
+  // Warringal — top: drop below
+  5: "left-1/2 -translate-x-1/2 top-full mt-3",
 };
 
 const labelClasses = (pos: "top" | "bottom" | "left" | "right") => {
@@ -200,10 +214,10 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
                 {p.shortName}
               </span>
 
-              {/* Luxury tooltip - only mount when hovered to save layout/paint cost */}
+              {/* Luxury tooltip — desktop only, smart-positioned per pin */}
               {hovered === p.id && (
                 <div
-                  className="absolute left-1/2 -translate-x-1/2 mt-3 w-64 sm:w-72 rounded-xl p-4 shadow-lux z-30"
+                  className={`hidden sm:block absolute w-72 rounded-xl p-4 shadow-lux z-40 ${TOOLTIP_POS[p.id] ?? "left-1/2 -translate-x-1/2 top-full mt-3"}`}
                   style={{ backgroundColor: "#faf8f5" }}
                   role="tooltip"
                 >
@@ -278,6 +292,57 @@ const StylizedLocationMap = ({ selectedId, onPinSelect }: StylizedLocationMapPro
             </div>
           );
         })}
+
+        {/* Mobile-only floating overlay card — never clips at edges */}
+        {(() => {
+          const activeId = hovered ?? selectedId;
+          const active = activeId ? pins.find((p) => p.id === activeId) : null;
+          if (!active) return null;
+          return (
+            <div
+              className="sm:hidden absolute left-3 right-3 bottom-3 z-40 rounded-xl p-4 shadow-lux animate-in fade-in slide-in-from-bottom-2 duration-200"
+              style={{ backgroundColor: "#faf8f5" }}
+              role="dialog"
+              aria-label={`${active.name} details`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="border border-stone-200/80 -m-4 p-4 rounded-xl relative">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setHovered(null);
+                  }}
+                  aria-label="Close details"
+                  className="absolute top-2 right-2 p-1.5 rounded-full text-warmGray hover:text-secondary active:scale-95 touch-manipulation"
+                >
+                  <X size={14} />
+                </button>
+                <p className="kicker text-bronze text-[10px] mb-1">Brow Arc Threading</p>
+                <p className="font-serif text-lg text-secondary leading-tight mb-1 pr-6">{active.name}</p>
+                <p className="text-warmGray text-xs leading-snug mb-3">{active.address}</p>
+                <div className="border-t border-stone-200/40 pt-2 flex items-center justify-between gap-2">
+                  <a
+                    href={`tel:${active.phone}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 text-bronze text-sm font-semibold py-2 px-3 -mx-2 rounded-md active:scale-[0.98] touch-manipulation"
+                  >
+                    <Phone size={13} /> Call Salon
+                  </a>
+                  <a
+                    href={active.directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 text-bronze text-sm font-semibold py-2 px-3 -mx-2 rounded-md active:scale-[0.98] touch-manipulation"
+                  >
+                    Directions <ExternalLink size={13} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
       </div>
     </section>
   );
