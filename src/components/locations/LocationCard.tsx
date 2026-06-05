@@ -88,16 +88,18 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="block text-warmGray text-[12px] sm:text-sm leading-snug hover:text-bronze transition-colors"
+              className="block text-warmGray text-[12px] sm:text-sm leading-snug hover:text-bronze transition-colors min-h-[2.5rem]"
             >
               {location.address}
             </a>
-            {location.mallDirections && (
-              <p className="mt-1.5 flex items-start gap-1 text-bronze text-[11px] italic leading-snug">
-                <Navigation size={10} className="mt-0.5 shrink-0" />
-                <span>{location.mallDirections}</span>
-              </p>
-            )}
+            <div className="mt-1.5 min-h-[2rem]">
+              {location.mallDirections && (
+                <p className="flex items-start gap-1 text-bronze text-[11px] italic leading-snug">
+                  <Navigation size={10} className="mt-0.5 shrink-0" />
+                  <span>{location.mallDirections}</span>
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
