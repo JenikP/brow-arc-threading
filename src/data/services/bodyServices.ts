@@ -1,3 +1,5 @@
+import fullBackImg from "../../assets/full-back.jpg.asset.json";
+
 export const bodyWaxing = [
   {
     title: "Under Arms",
@@ -62,6 +64,7 @@ export const bodyWaxing = [
       "location4": "Not Available",
       "location5": "Not Available"
     },
+    image: fullBackImg.url
   },
   {
     title: "Half Back",
@@ -73,6 +76,7 @@ export const bodyWaxing = [
       "location4": "Not Available",
       "location5": "Not Available"
     },
+    image: fullBackImg.url
   },
   {
     title: "Belly",

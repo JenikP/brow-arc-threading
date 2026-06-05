@@ -47,7 +47,7 @@ const Navbar = () => {
               <img
                 src="/lovable-uploads/c3344f81-1e98-4f81-9573-1d658bc58c98.png"
                 alt="Brow Arc Threading Logo"
-                className="w-[180px] xs:w-[200px] sm:w-[220px] md:w-[250px] lg:w-[280px] h-auto object-contain"
+                className="w-[210px] xs:w-[230px] sm:w-[240px] md:w-[280px] lg:w-[300px] h-auto object-contain drop-shadow-sm"
               />
             </Link>
           </div>
@@ -56,35 +56,35 @@ const Navbar = () => {
           <div className="hidden md:flex items-center md:space-x-4 lg:space-x-8">
             <button 
               onClick={() => handleNavigation('services')} 
-              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-base lg:text-base"
             >
               Services
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handleNavigation('about')} 
-              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-base lg:text-base"
             >
               About
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handleNavigation('testimonials')} 
-              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-base lg:text-base"
             >
               Testimonials
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
             </button>
             <Link 
               to="/locations" 
-              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-base lg:text-base"
             >
               Locations
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <button 
               onClick={() => handleNavigation('contact')} 
-              className="text-charcoal hover:text-secondary transition-colors relative group md:text-sm lg:text-base"
+              className="text-charcoal hover:text-secondary transition-colors relative group md:text-base lg:text-base"
             >
               Contact
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
@@ -123,10 +123,10 @@ const Navbar = () => {
 
             <a
               href="tel:+61415469594"
-              className="bg-secondary hover:bg-bronze text-pearl md:px-4 lg:px-6 md:py-2 lg:py-2.5 rounded-full transition-colors flex items-center md:gap-1.5 lg:gap-2 md:text-sm lg:text-base font-semibold shadow-soft hover:shadow-card"
+              className="bg-secondary hover:bg-bronze text-pearl md:px-3 lg:px-5 md:py-1.5 lg:py-2.5 rounded-full transition-colors inline-flex items-center md:gap-1.5 lg:gap-2 md:text-sm lg:text-base font-semibold shadow-soft hover:shadow-card whitespace-nowrap"
               aria-label="Call to book"
             >
-              <Phone size={16} className="md:w-4 md:h-4 lg:w-5 lg:h-5" />
+              <Phone size={14} className="md:w-4 md:h-4 lg:w-5 lg:h-5" />
               Call to Book
             </a>
           </div>
