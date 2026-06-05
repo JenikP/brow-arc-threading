@@ -1,5 +1,3 @@
-import sideburnImg from "../../assets/sideburn.jpg.asset.json";
-
 export const facialThreadingWaxing = [
   {
     title: "Eyebrow Threading/Waxing",
@@ -59,7 +57,7 @@ export const facialThreadingWaxing = [
       "location4": "from $10",
       "location5": "from $12"
     },
-    image: sideburnImg.url
+    image: "/lovable-uploads/sideburn.jpg"
   },
   {
     title: "Neck",
