@@ -1,7 +1,5 @@
 import { FC } from 'react';
 import ServiceCard from './ServiceCard';
-import sideburnImg from '../../assets/sideburn.jpg';
-import fullBackImg from '../../assets/fullback.jpg';
 
 interface Service {
   title: string;
@@ -30,9 +28,9 @@ const ServiceCategory: FC<ServiceCategoryProps> = ({ category, items, selectedLo
       "Upper Lip": "https://media.istockphoto.com/id/1075627666/photo/therapist-waxing-womans-upper-lip.jpg?s=612x612&w=0&k=20&c=_HVVmbTzVMuhpOQD1ZpLteJQdX4Yf5fJL1oFn3mohXg=",
       "Forehead": "https://media.istockphoto.com/id/1083288278/photo/eyebrow-threading-epilation-procedure-for-brow-shape-correction.jpg?s=612x612&w=0&k=20&c=ql2jQHMHAYhUxEMcP0RLVujWbCnHgjoRqWSvkBmS_G4=",
       "Chin": "https://media.istockphoto.com/id/163736832/photo/beauty-salon.jpg?s=612x612&w=0&k=20&c=RntBzJuayNaeSmw1LKvjVTAIJbYxWPfhIwBwr4dlHUc=",
-      "Side Burns": sideburnImg.url,
-      "Full Back": fullBackImg.url,
-      "Half Back": fullBackImg.url,
+      "Side Burns": "/lovable-uploads/sideburn.jpg",
+      "Full Back": "/lovable-uploads/fullback.jpg",
+      "Half Back": "lovable-uploads/fullback.jpg",
       "Neck": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJFxDPe1aUQJbTQMhmrWVM1teqvRxTOR2zuuByODTmi8MIkLFmYT3TFyYj7PdGCgLqcCo&usqp=CAU",
       "Full Face": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80",
       "Under Arms": "https://media.istockphoto.com/id/1391598082/photo/close-up-waxing-arm-paids-area-in-studio-spa.jpg?s=612x612&w=0&k=20&c=ChJ-khvd-TBS0RI8GQJdn61Bo3GT-iM36C--I1xi_3k=",
