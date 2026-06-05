@@ -15,7 +15,8 @@ export const locations: LocationData[] = [
     directionsUrl: "https://www.google.com/maps/search/?api=1&query=HomeCo.+Brandon+Park+Shopping+Centre+Wheelers+Hill+VIC",
     hours: {
       "Monday – Wednesday": "9:00 am – 5:30 pm",
-      "Thursday – Friday": "9:00 am – 7:00 pm",
+      "Thursday": "9:00 am – 7:00 pm",
+      "Friday": "9:00 am – 7:00 pm",
       "Saturday": "9:00 am – 5:00 pm",
       "Sunday/Public Holidays": "10:00 am – 5:00 pm"
     }
@@ -32,7 +33,7 @@ export const locations: LocationData[] = [
     directionsUrl: "https://www.google.com/maps/search/?api=1&query=Westfield+Southland+Cheltenham+VIC",
     hours: {
       "Monday – Wednesday": "9:00 am – 5:30 pm",
-      "Thursday – Friday": "9:00 am – 7:00 pm",
+      "Thursday – Friday": "9:00 am – 8:30 pm",
       "Saturday": "9:00 am – 5:00 pm",
       "Sunday/Public Holidays": "10:00 am – 5:00 pm"
     }
@@ -50,7 +51,7 @@ export const locations: LocationData[] = [
     directionsUrl: "https://www.google.com/maps/search/?api=1&query=Pakenham+Central+Marketplace+John+St+Pakenham+VIC",
     hours: {
       "Monday – Wednesday": "9:00 am – 5:30 pm",
-      "Thursday – Friday": "9:00 am – 7:00 pm",
+      "Thursday – Friday": "9:00 am – 6:30 pm",
       "Saturday": "9:00 am – 5:00 pm",
       "Sunday/Public Holidays": "10:00 am – 5:00 pm"
     }
@@ -67,7 +68,7 @@ export const locations: LocationData[] = [
     directionsUrl: "https://www.google.com/maps/search/?api=1&query=Stud+Park+Shopping+Centre+Rowville+VIC",
     hours: {
       "Monday – Wednesday": "9:00 am – 5:30 pm",
-      "Thursday – Friday": "9:00 am – 7:00 pm",
+      "Thursday – Friday": "9:00 am – 6:30 pm",
       "Saturday": "9:00 am – 5:00 pm",
       "Sunday/Public Holidays": "10:00 am – 5:00 pm"
     }
@@ -83,10 +84,11 @@ export const locations: LocationData[] = [
     image: "/lovable-uploads/warringal.png",
     directionsUrl: "https://www.google.com/maps/search/?api=1&query=Warringal+Shopping+Centre+Heidelberg+VIC",
     hours: {
-      "Monday – Wednesday": "9:00 am – 5:30 pm",
-      "Thursday – Friday": "9:00 am – 7:00 pm",
+      "Monday": "9:00 am – 5:30 pm",
+      "Tuesday": "10:00 am – 5:00 pm",
+      "Wednesday – Friday": "9:00 am – 5:30 pm",
       "Saturday": "9:00 am – 5:00 pm",
-      "Sunday/Public Holidays": "10:00 am – 5:00 pm"
+      "Sunday": "Closed"
     }
   }
 ];
