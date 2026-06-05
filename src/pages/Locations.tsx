@@ -7,6 +7,8 @@ import StylizedLocationMap from "../components/locations/StylizedLocationMap";
 import { useLocationStore } from "../stores/locationStore";
 
 const LocationList = lazy(() => import("../components/locations/LocationList"));
+const Contact = lazy(() => import("../components/Contact"));
+const Footer = lazy(() => import("../components/Footer"));
 
 const locationsJsonLd = {
   "@context": "https://schema.org",
@@ -24,7 +26,6 @@ const locationsJsonLd = {
 const Locations = () => {
   const { selectedLocation: storeId, setSelectedLocation: setStoreId } = useLocationStore();
 
-  // Derive numeric id from global storeId
   const selectedLocation =
     locations.find((l) => l.storeId === storeId)?.id ?? null;
 
@@ -55,7 +56,7 @@ const Locations = () => {
         jsonLd={locationsJsonLd}
       />
       <Navbar />
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 pt-24 sm:pt-28 pb-32 sm:pb-24">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 pt-24 sm:pt-28 pb-16 sm:pb-24">
         <div className="text-center mb-10 sm:mb-12 max-w-2xl mx-auto">
           <p className="kicker text-bronze mb-4">Find us</p>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-secondary mb-4 leading-[1.1]">
@@ -84,6 +85,11 @@ const Locations = () => {
           />
         </Suspense>
       </div>
+
+      <Suspense fallback={<div className="h-32" />}>
+        <Contact />
+        <Footer />
+      </Suspense>
     </div>
   );
 };
