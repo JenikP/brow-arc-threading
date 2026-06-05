@@ -57,7 +57,7 @@ export const facialThreadingWaxing = [
       "location4": "from $10",
       "location5": "from $12"
     },
-    image: "/lovable-uploads/sideburn.jpg"
+    image: "/sideburn.jpg"
   },
   {
     title: "Neck",
