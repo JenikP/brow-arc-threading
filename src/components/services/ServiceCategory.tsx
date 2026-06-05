@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import ServiceCard from './ServiceCard';
-import fullBackImg from '../../assets/full-back.jpg.asset.json';
-import sideburnImg from '../../assets/sideburn.jpg.asset.json';
+import fullBackImg from '../../assets/fullback.jpg';
+import sideburnImg from '../../assets/sideburn.jpg.';
 
 interface Service {
   title: string;
