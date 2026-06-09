@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import Index from "./pages/Index";
 import Locations from "./pages/Locations";
+import LocationDetail from "./pages/LocationDetail";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/locations" element={<Locations />} />
+          <Route path="/locations/:slug" element={<LocationDetail />} />
         </Routes>
       </BrowserRouter>
       <Analytics />
