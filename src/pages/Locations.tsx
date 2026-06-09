@@ -73,7 +73,7 @@ const Locations = () => {
           onSelect={selectById}
         />
 
-        <div className="mb-8 sm:mb-12">
+        <div className="hidden sm:block mb-8 sm:mb-12">
           <StylizedLocationMap selectedId={selectedLocation} onPinSelect={handlePinSelect} />
         </div>
 

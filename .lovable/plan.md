@@ -1,71 +1,32 @@
-# Responsive Overhaul — Home, Locations, Navbar, Data
+# Mobile Locations Page Fix
 
-## 1. Homepage (`HomeLocations.tsx`, `Index.tsx`)
+Two targeted mobile-only refinements to the Locations page. Desktop/tablet layouts are untouched.
 
-- Remove `<StylizedLocationMap />` entirely from `HomeLocations` (desktop + mobile — same component on Home).
-- Update homepage section heading copy from "Tap a pin on the map…" to a card-only intro ("Call any salon directly, or tap *Directions*.").
-- Extend each card to display, inline (before the CTA row):
-  - `mallDirections` line with the `Navigation` icon (bronze italic, matching `LocationCard` style).
-  - Today's opening hours (computed via the existing `getTodayHoursKey` helper) with the `Clock` icon.
-  - Live "Open Now / Closed" pill using `useOpenStatus` (emerald/rose) — same visual as Locations page.
-- Keep grid `sm:grid-cols-2 lg:grid-cols-3`, but enforce uniform card heights with `flex flex-col` + `flex-1` content area + `mt-auto` CTA row (already partially in place).
+## 1. LocationQuickNav — fit all 5 salons on mobile
 
-## 2. Locations page — desktop (`Locations.tsx`, `StylizedLocationMap.tsx`, `LocationList.tsx`, `LocationCard.tsx`)
+Currently each pill is full-size with the salon's long name ("HomeCo. Brandon Park", "Westfield Southland"), so on a 390px viewport only ~1.5 pills are visible and the rest sit off-screen behind the fade.
 
-- Scale map down on laptop: cap with `max-w-4xl mx-auto`, change aspect to `lg:aspect-[16/9]` so it does not dominate the fold.
-- Pin interaction model:
-  - Hover ⇒ shows tooltip (already behaves this way).
-  - Click ⇒ calls `onPinSelect(id)`, which sets selection + scrolls to the corresponding location card. Remove the `<a href={directionsUrl}>` fallback branch — pins are always buttons, never redirect. The tooltip's "Directions" link remains the only redirect path.
-- Warringal (id 5) tooltip: change `TOOLTIP_POS[5]` from "below center" to anchor on the **right** side of the pin (`left-full ml-3 top-1/2 -translate-y-1/2`). Pakenham keeps left-anchor, Southland keeps right-anchor.
-- Uniform card grid in `LocationCard`:
-  - Wrap whole card in `flex flex-col h-full`.
-  - Give the header block a `min-h-[7rem]` so titles align across rows.
-  - Reserve a `min-h-[2.5rem]` slot for `mallDirections` (renders empty spacer when missing) so the "Open Now" badges align horizontally.
-  - Push CTA row with `mt-auto`.
-- Append the homepage **Contact** form section and **Footer** to the bottom of `Locations.tsx` (lazy-loaded with the existing `Suspense`).
+Changes in `src/components/locations/LocationQuickNav.tsx`:
+- Switch the mobile container from horizontal scroll to a **2-column grid** (`grid grid-cols-2 sm:flex sm:flex-wrap`) so all 5 chips are visible at once (with the 5th spanning both columns or sitting alone on the last row).
+- Add a short-label field on the chip: use a shortened display name on mobile (e.g. "Brandon Park", "Southland", "Pakenham", "Stud Park", "Warringal") via a small `shortName` lookup map inside the component — no data-model change required.
+- Tighten chip styling on mobile: `text-xs`, `px-3 py-2`, `justify-center`, `truncate`, smaller check icon. Desktop pill styling unchanged.
+- Remove the right-edge fade gradient and `snap-x` behavior on mobile (no longer needed since nothing scrolls).
 
-## 3. Tablet (768–1024 px)
+Result: all 5 salons readable in a clean 2-column grid on phones; desktop wrap behavior identical to today.
 
-- `Navbar.tsx`:
-  - Logo: bump `md:w-[280px] lg:w-[300px]` for better legibility.
-  - Nav links: `md:text-base` (currently `md:text-sm`).
-  - "Call to Book": shrink to `md:px-3 md:py-1.5 md:text-sm` with tighter gap, so it sits as a balanced inline pill instead of dominating the row.
-- Map pin stacking: every pin gets `zIndex: 20` by default, the **active/hovered** pin's wrapper gets `zIndex: 50` and its tooltip `z-[60]`. Permanent label badges drop to `z-[5]`. Backdrop pins can no longer bleed over the open card.
+## 2. StylizedLocationMap — hide on mobile
 
-## 4. Mobile (<768 px)
+The decorative SVG map is cropped on mobile: the top pin (Warringal) and the active tooltip card both extend outside the visible area, and the bottom drawer adds an extra interaction layer that duplicates what the cards below already do.
 
-- Larger, crisper logo in `Navbar.tsx` (`w-[210px] xs:w-[230px]`, add `drop-shadow-sm`).
-- Home: map already removed in step 1 — no extra work.
-- `LocationQuickNav` already uses `overflow-x-auto` + `snap-x` on mobile. Verify `flex-nowrap` is applied (`flex-row flex-nowrap whitespace-nowrap`) and bump tap targets to `py-3`.
-- Locations map on mobile: convert the existing in-map overlay to a **fixed bottom drawer** when `< sm`:
-  - Render via portal (`createPortal` to `document.body`) so it escapes the map container.
-  - Position `fixed inset-x-0 bottom-0 z-[70]`, rounded-top, safe-area padding, slide-up animation, swipe-handle pill, close button.
-  - Backdrop tap dismisses.
-  - Desktop tooltip behavior unchanged.
-- Pins: bump hit area to `p-4 -m-4` on `<sm` and ensure label badges don't push out of viewport (truncate / hide non-active labels on mobile when a card is open).
+Changes in `src/pages/Locations.tsx`:
+- Wrap the `<StylizedLocationMap …/>` block in a `hidden sm:block` container so the map only renders from the `sm` breakpoint up (≥640px).
+- Replace it on mobile with nothing — the `LocationQuickNav` (now showing all 5) plus the location cards beneath provide the full navigation affordance.
 
-## 5. Data & images
+No changes to `StylizedLocationMap.tsx` itself, so desktop/tablet behavior (hover tooltips, smart anchor positions, click-to-select) is preserved exactly.
 
-Update `src/data/locationData.ts` hours objects to:
+## Files touched
 
-- **Brandon Park** — `Mon – Wed 9:00 am – 5:30 pm`, `Thursday 9:00 am – 7:00 pm`, `Friday 9:00 am – 7:00 pm`, `Saturday 9:00 am – 5:00 pm`, `Sunday/Public Holidays 10:00 am – 5:00 pm`.
-- **Southland** — `Mon – Wed 9:00 am – 5:30 pm`, `Thu – Fri 9:00 am – 8:30 pm`, `Sat 9:00 am – 5:00 pm`, `Sun/Public Holidays 10:00 am – 5:00 pm`.
-- **Pakenham** — `Mon – Wed 9:00 am – 5:30 pm`, `Thu – Fri 9:00 am – 6:30 pm`, `Sat 9:00 am – 5:00 pm` (treating "5:5pm" as a typo for 5:00 pm), `Sun/Public Holidays 10:00 am – 5:00 pm`.
-- **Stud Park** — `Mon – Wed 9:00 am – 5:30 pm`, `Thu – Fri 9:00 am – 6:30 pm`, `Sat 9:00 am – 5:00 pm`, `Sun/Public Holidays 10:00 am – 5:00 pm`.
-- **Warringal** — `Monday 9:00 am – 5:30 pm`, `Tuesday 10:00 am – 5:00 pm`, `Wed – Fri 9:00 am – 5:30 pm`, `Saturday 9:00 am – 5:00 pm`, `Sunday Closed`.
+- `src/components/locations/LocationQuickNav.tsx` — grid layout + short labels on mobile
+- `src/pages/Locations.tsx` — wrap map in `hidden sm:block`
 
-`getTodayHoursKey` already matches per-day keys; the `businessHours` parser handles `Closed` (returns isOpen=false). Verify both still work after the Warringal split.
-
-Service images (`src/data/services/`):
-
-- `facialServices.ts` → "Side Burns" already uses `sideburnImg`. Confirm the asset pointer resolves on the published bundle.
-- `bodyServices.ts` → wire `full-back.jpg.asset.json` to **Full Back** entry's `image` field (currently missing). Reuse the same asset for **Half Back** unless a separate image is supplied.
-
-> Open question (low risk): if a distinct Half Back photo exists, swap it in later; for now both back entries share `full-back.jpg`.
-
-## Technical notes
-
-- Files edited: `src/components/HomeLocations.tsx`, `src/components/Navbar.tsx`, `src/components/locations/StylizedLocationMap.tsx`, `src/components/locations/LocationCard.tsx`, `src/components/locations/LocationQuickNav.tsx`, `src/pages/Locations.tsx`, `src/data/locationData.ts`, `src/data/services/bodyServices.ts`.
-- Drawer uses `react-dom/createPortal` (already available via React 18).
-- No changes to `useLocationStore`, `businessHours.ts`, or `useOpenStatus.ts` — global sync logic preserved.
-- No new dependencies.
+No data, store, type, or business-logic changes.
