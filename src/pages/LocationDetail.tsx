@@ -9,12 +9,12 @@ import { useOpenStatus } from "../hooks/useOpenStatus";
 const LocationDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const location = locations.find((l) => l.slug === slug);
+  const status = useOpenStatus(location?.hours ?? {});
 
   if (!location) {
     return <Navigate to="/locations" replace />;
   }
 
-  const status = useOpenStatus(location.hours);
   const others = locations.filter((l) => l.slug !== location.slug);
   const mapsUrl =
     location.directionsUrl ||
