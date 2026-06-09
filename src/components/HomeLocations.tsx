@@ -107,6 +107,12 @@ const HomeLocationCard = ({ loc }: { loc: LocationData }) => {
             Directions
           </a>
         </div>
+        <Link
+          to={`/locations/${loc.slug}`}
+          className="mt-3 inline-flex items-center justify-center gap-1.5 text-bronze hover:text-secondary text-[13px] font-medium transition-colors"
+        >
+          View salon page →
+        </Link>
       </div>
     </article>
   );

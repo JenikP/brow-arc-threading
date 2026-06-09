@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Phone, ExternalLink, Check, Clock, ChevronDown, Navigation } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Phone, ExternalLink, Check, Clock, ChevronDown, Navigation, ArrowRight } from "lucide-react";
 import { useLocationStore } from "../../stores/locationStore";
 import { toast } from "sonner";
 import { LocationData } from "../../types/location";
@@ -218,6 +219,13 @@ const LocationCard = ({ location, isSelected, onClick }: LocationCardProps) => {
               Get Directions
             </a>
           </div>
+          <Link
+            to={`/locations/${location.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-[12px] font-semibold text-bronze hover:text-secondary border border-bronze/30 hover:border-bronze bg-bronze/5 hover:bg-bronze/10 transition-colors active:scale-[0.98]"
+          >
+            View salon page <ArrowRight size={12} />
+          </Link>
           <button
             onClick={handleSelectLocation}
             className={`w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-colors active:scale-[0.98] ${
